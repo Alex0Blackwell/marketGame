@@ -58,7 +58,7 @@ function mPriceGen(a,b,i){ //a is a number 0-7, for the array reference of the p
   } else {
       var rawPrice = (mItemPrice[a] - (mItemPrice[a]*0.9/(Math.random()+0.1))/10).toFixed();
 
-      setTimeout(botBuy,(rawPrice/mItemPrice[a]*10000-Math.random()*3),i);
+      setTimeout(botBuy,(rawPrice/mItemPrice[a]*10000 - Math.random()*2),i);
       return (rawPrice)*b;
     }
 }
