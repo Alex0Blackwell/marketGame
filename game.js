@@ -25,10 +25,19 @@ function marketTime() {
   }
 
   function mCountDwn1() {
+    var m = Math.floor(rawTime1/60);
+    var s = rawTime1%60;
+
+    rawTime1--;
+
     if (rawTime1===0) {
       rawTime1 = t1/1000;
     }
-    return rawTime1--;
+      else if (m===0) {
+        return `${s} secs`
+      } else {
+        return `${m} min ${s} secs`;
+        }
   }
 }
 
