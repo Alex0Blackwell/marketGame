@@ -1,29 +1,84 @@
 mSlotGen();
 marketTime();
+mSlotGenBig();
 
-function marketTime(){
-  var t = 15000;
-  var rawTime = t/1000;
-  var mTime = setInterval(mSlotGen, t);
+function marketTime() {
+  var t0 = 15000;
+  var t1 = 3000;
+  var rawTime0 = t0/1000;
+  var rawTime1 = t1/1000;
+  var mTime = setInterval(mSlotGen, t0);
 
-  document.getElementById('mRefreshT').innerHTML = `${mCountDwn()}`;
-  setInterval(function(){document.getElementById('mRefreshT').innerHTML = `${mCountDwn()}`;}, 1000);
+  var mBigTime = setInterval(mSlotGenBig, t1);
 
-  function mCountDwn(){
-    if (rawTime===0) {
-      rawTime = t/1000;
+  document.getElementById('mRefreshT').innerHTML = `${mCountDwn0()}`;
+  setInterval(function(){document.getElementById('mRefreshT').innerHTML = `${mCountDwn0()}`;}, 1000);
+
+  document.getElementById('mBRefreshT').innerHTML = `${mCountDwn1()}`;
+  setInterval(function(){document.getElementById('mBRefreshT').innerHTML = `${mCountDwn1()}`;}, 1000);
+
+  function mCountDwn0() {
+    if (rawTime0===0) {
+      rawTime0 = t0/1000;
     }
-    return rawTime--;
+    return rawTime0--;
+  }
+
+  function mCountDwn1() {
+    if (rawTime1===0) {
+      rawTime1 = t1/1000;
+    }
+    return rawTime1--;
   }
 }
 
-function mSlotGen(){ //function for generating market slot items
+var lastPick;
+function mSlotGenBig() {
+  var mBigItems = ['electronics store', 'computer store', 'cafe', 'restaurant'];
+  var mBRand = Math.random()*10;
+
+
+  if (mBRand<4) { //electronics store
+    if (lastPick===mBigItems[0]) {
+      mSlotGenBig();
+    } else {
+        document.getElementById('bMSlot0').innerHTML = mBigItems[0];
+      }
+    lastPick = mBigItems[0];
+  }
+    else if (mBRand>=4&&mBRand<7) { //computer store
+      if (lastPick===mBigItems[1]) {
+        mSlotGenBig();
+      } else {
+          document.getElementById('bMSlot0').innerHTML = mBigItems[1];
+        }
+      lastPick = mBigItems[1];
+    }
+      else if (mBRand>=7&&mBRand<9) { //cafe
+        if (lastPick===mBigItems[2]) {
+          mSlotGenBig();
+        } else {
+            document.getElementById('bMSlot0').innerHTML = mBigItems[2];
+          }
+        lastPick = mBigItems[2];
+      }
+        else if (mBRand>=9) { //restaurant
+          if (lastPick===mBigItems[3]) {
+            mSlotGenBig();
+          } else {
+              document.getElementById('bMSlot0').innerHTML = mBigItems[3];
+            }
+          lastPick = mBigItems[3];
+        }
+}
+
+function mSlotGen() { //function for generating market slot items
   var c = 0;
   var mSlotItems = ['wood', 'brick', 'steel', 'silver', 'gold', 'platinum', 'cell phone', 'computer']; //market slot item
   var mItemNum = (document.getElementById('mSlots').childNodes.length-1)/2; //get how many items
 
 //-- this the the logic for getting rarity on the items. No they werent picked at random, this is MANY minutes of balancing
-  for(i=0;i<mItemNum;i++){
+  for(i=0;i<mItemNum;i++) {
 
     var randItem = Math.random()*100;
 
@@ -62,7 +117,7 @@ function mSlotGen(){ //function for generating market slot items
   }
 }
 
-function mPriceGen(a,b,i){ //a is a number 0-7, for the array reference of the product; b is the amount of item; i is for the id call
+function mPriceGen(a,b,i) { //a is a number 0-7, for the array reference of the product; b is the amount of item; i is for the id call
   var mItemPrice = [10,15,25,50,100,150,1000,1500];
   //(medium +- (medium*.9/rand(+.1))/10 --> round)*number of items
   if (plusMinFn()) {
@@ -75,7 +130,7 @@ function mPriceGen(a,b,i){ //a is a number 0-7, for the array reference of the p
     }
 }
 
-function numOfItem(a){
+function numOfItem(a) {
   if (a<4) {
     return (Math.random()*9+1).toFixed();
   }
@@ -86,7 +141,7 @@ function numOfItem(a){
       }
 }
 
-function plusMinFn(){
+function plusMinFn() {
   if (Math.random()<0.5) {
     return true;
   } else {
@@ -94,7 +149,7 @@ function plusMinFn(){
   }
 }
 
-function botBuy(a){
+function botBuy(a) {
   var content = document.getElementById('mSlot'+a).innerHTML.strike();
   document.getElementById('mSlot'+a).innerHTML = content; //is this the best way to do this lol idk maybe not
 }
