@@ -86,7 +86,3 @@ function botBuy(a){
   var content = document.getElementById('mSlot'+a).innerHTML.strike();
   document.getElementById('mSlot'+a).innerHTML = content; //is this the best way to do this lol idk maybe not
 }
-
-function mmAddFn(){
-
-}
