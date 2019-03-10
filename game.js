@@ -130,6 +130,18 @@ function mPriceGen(a,b,i) { //a is a number 0-7, for the array reference of the 
     }
 }
 
+function mBigPriceGen(a) { //a is a number 0-3, for the array reference of the product; b is the amount of item; i is for the id call
+  var mItemPrice = [10000,20000,25000,75000];
+  //(medium +- (medium*.9/rand(+.1))/10 --> round)*number of items
+  if (plusMinFn()) {
+    return ((mItemPrice[a] + (mItemPrice[a]*0.9/(Math.random()+0.1))/10).toFixed());
+  } else {
+      var rawPrice1 = (mItemPrice[a] - (mItemPrice[a]*0.9/(Math.random()+0.1))/10).toFixed();
+      setTimeout(botBuy1,(rawPrice1/mItemPrice[a]*10000 - Math.random()*2));
+      return rawPrice1
+    }
+}
+
 function numOfItem(a) {
   if (a<4) {
     return (Math.random()*9+1).toFixed();
@@ -152,4 +164,9 @@ function plusMinFn() {
 function botBuy(a) {
   var content = document.getElementById('mSlot'+a).innerHTML.strike();
   document.getElementById('mSlot'+a).innerHTML = content; //is this the best way to do this lol idk maybe not
+}
+
+function botBuy1() {
+  var content = document.getElementById('bMSlot0').innerHTML.strike();
+  document.getElementById('bMSlot0').innerHTML = content;
 }
