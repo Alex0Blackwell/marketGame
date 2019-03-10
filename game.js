@@ -2,7 +2,19 @@ mSlotGen();
 marketTime();
 
 function marketTime(){
-  var mTime = setInterval(mSlotGen, 15000); //set to 3 secs rn... but that will change to 30... maybe 15??
+  var t = 15000;
+  var rawTime = t/1000;
+  var mTime = setInterval(mSlotGen, t);
+
+  document.getElementById('mRefreshT').innerHTML = `${mCountDwn()}`;
+  setInterval(function(){document.getElementById('mRefreshT').innerHTML = `${mCountDwn()}`;}, 1000);
+
+  function mCountDwn(){
+    if (rawTime===0) {
+      rawTime = t/1000;
+    }
+    return rawTime--;
+  }
 }
 
 function mSlotGen(){ //function for generating market slot items
