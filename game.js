@@ -4,7 +4,7 @@ mSlotGenBig();
 
 function marketTime() {
   var t0 = 15000;
-  var t1 = 3000;
+  var t1 = 90000;
   var rawTime0 = t0/1000;
   var rawTime1 = t1/1000;
   var mTime = setInterval(mSlotGen, t0);
@@ -52,6 +52,7 @@ function mSlotGenBig() {
       mSlotGenBig();
     } else {
         document.getElementById('bMSlot0').innerHTML = mBigItems[0];
+		document.getElementById('bMSlot0').value = 'electronics store';
       }
     lastPick = mBigItems[0];
   }
@@ -60,6 +61,7 @@ function mSlotGenBig() {
         mSlotGenBig();
       } else {
           document.getElementById('bMSlot0').innerHTML = mBigItems[1];
+		  document.getElementById('bMSlot0').value = 'computer store';
         }
       lastPick = mBigItems[1];
     }
@@ -68,6 +70,7 @@ function mSlotGenBig() {
           mSlotGenBig();
         } else {
             document.getElementById('bMSlot0').innerHTML = mBigItems[2];
+			document.getElementById('bMSlot0').value = 'computer store';
           }
         lastPick = mBigItems[2];
       }
@@ -76,6 +79,7 @@ function mSlotGenBig() {
             mSlotGenBig();
           } else {
               document.getElementById('bMSlot0').innerHTML = mBigItems[3];
+			  document.getElementById('bMSlot0').value = 'computer store';
             }
           lastPick = mBigItems[3];
         }
@@ -94,34 +98,42 @@ function mSlotGen() { //function for generating market slot items
     if(randItem<25){ //wood
       var numItems0 = numOfItem(0);
       document.getElementById("mSlot"+i).innerHTML = `${numItems0} ${mSlotItems[0]} for $${mPriceGen(0,numItems0,i)}`;
+	  document.getElementById("mSlot"+i).value = 'wood';
     }
       else if (randItem>=25&&randItem<45) { //brick
         var numItems1 = numOfItem(1);
         document.getElementById("mSlot"+i).innerHTML = `${numItems1} ${mSlotItems[1]} for $${mPriceGen(1,numItems1,i)}`;
+		document.getElementById("mSlot"+i).value = 'brick';
       }
         else if (randItem>=45&&randItem<65) { //steel
           var numItems2 = numOfItem(2);
           document.getElementById("mSlot"+i).innerHTML = `${numItems2} ${mSlotItems[2]} for $${mPriceGen(2,numItems2,i)}`;
+		  document.getElementById("mSlot"+i).value = 'steel';
         }
           else if (randItem>=65&&randItem<80) { //silver
             var numItems3 = numOfItem(3);
             document.getElementById("mSlot"+i).innerHTML = `${numItems3} ${mSlotItems[3]} for $${mPriceGen(3,numItems3,i)}`;
+			document.getElementById("mSlot"+i).value = 'silver';
           }
             else if (randItem>=80&&randItem<87) { //gold
               var numItems4 = numOfItem(4);
               document.getElementById("mSlot"+i).innerHTML = `${numItems4} ${mSlotItems[4]} for $${mPriceGen(4,numItems4,i)}`;
+			  document.getElementById("mSlot"+i).value = 'gold';
             }
               else if (randItem>=87&&randItem<93) { //platinum
                 var numItems5 = numOfItem(5);
                 document.getElementById("mSlot"+i).innerHTML = `${numItems5} ${mSlotItems[5]} for $${mPriceGen(5,numItems5,i)}`;
+				document.getElementById("mSlot"+i).value = 'platinum';
               }
                 else if (randItem>=93&&randItem<97) { //cell phone
                   var numItems6 = numOfItem(6);
                   document.getElementById("mSlot"+i).innerHTML = `${numItems6} ${mSlotItems[6]} for $${mPriceGen(6,numItems6,i)}`;
+				  document.getElementById("mSlot"+i).value = 'cell phone';
                 }
                   else if (randItem>=97&&randItem<=100) { //computer
                     var numItems7 = numOfItem(7);
                     document.getElementById("mSlot"+i).innerHTML = `${numItems7} ${mSlotItems[7]} for $${mPriceGen(7,numItems7,i)}`;
+					document.getElementById("mSlot"+i).value = 'computer';
                   }
   }
 }
@@ -173,9 +185,34 @@ function plusMinFn() {
 function botBuy(a) {
   var content = document.getElementById('mSlot'+a).innerHTML.strike();
   document.getElementById('mSlot'+a).innerHTML = content; //is this the best way to do this lol idk maybe not
+  document.getElementById('mSlot'+a).value = false;
 }
 
 function botBuy1() {
   var content = document.getElementById('bMSlot0').innerHTML.strike();
   document.getElementById('bMSlot0').innerHTML = content;
+  document.getElementById('mSlot0').value = false;
+}
+
+var myItems = [];
+function buy(a,b) {
+	if(a===false) {
+		var content0 = document.getElementById('mSlot'+b).value;
+		
+		if(content0!=false) {
+			myItems.push(content0);
+			botBuy(b);
+		}
+		console.log(myItems);
+	}
+	
+	if(a===true) {
+		var content1 = document.getElementById('bMSlot0').value;
+		
+		if(content1!=false) {
+			myItems.push(content1);
+			botBuy1();
+		}
+	console.log(myItems);
+	}
 }
