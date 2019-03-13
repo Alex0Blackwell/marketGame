@@ -234,13 +234,14 @@ function buy(a,b) {
   invenCopy();
   //console.log(myItems.toString());
   document.getElementById('inventory').innerHTML = invenCopy();
+  console.log(`first items ${myItems}`);
 }
 
 function invenCopy() {
   var tempDup = [];
   var finalDups = [];
 
-//--for getting how many times an item repeats
+//--for getting how many times an item repeats 'a','b','a'
   for (var a=0; a<myItems.length; a++) {
     for (var b=0; b<myItems.length; b++) {
       if (myItems[a]===myItems[b]) {
@@ -252,65 +253,26 @@ function invenCopy() {
       }
     }
   }
-  //console.log(finalDups);
-//--now we need to get rid of the duplicates, eg ['2 wood', '2 wood']
-  for (var c=0; c<finalDups.length; c++) {
-    for (var d=0; d<finalDups.length; d++) {
-      //console.log('1 '+finalDups[c].split(' ')[1]);
-      //console.log('2 '+finalDups[d].split(' ')[1]);
+  console.log(finalDups);
+	
+  return [...new Set(finalDups)];
+	
 
-      console.log(finalDups);
-
-      if (c>0&&finalDups[c].split(' ')[1]===finalDups[d].split(' ')[1]) {
-        console.log('entered');
-        //&&finalDups[c].split(' ')[0]!=1
-
-        //console.log('before'+finalDups);
-        //finalDups.splice((c-lenSub), 1);
-        //lenSub++;
-        //console.log('after'+finalDups);
-        //left side + right side
-        //finalDups = finalDups.splice((c+1), )
-
-        //-----------------------------------------
-        // var rs = finalDups;
-        // var ls = finalDups;
-        // var finRs = [];
-        // var finLs = [];
-        // //console.log(finalDups);
-        //
-        // for (var f = 0; f < c; f++) {
-        //   //console.log(rs);
-        //   var rsString = rs.shift();
-        //   finRs.push(rsString);
-        //   console.log(rsString);
-        // }
-        // console.log(finRs);
-        //
-        //
-        // for (var e=0;e<c;e++) {
-        //   var lsString = ls.pop();
-        //   finLs.push(lsString);
-        // }
-        // finalDups = finRs.concat(finLs);
-
-        //shift everything to the left and pop the last one if undefined
-        var setLength = finalDups.length;
-        if (finalDups[setLength-1]===undefined) {
-          finalDups.pop();
-        } else {
-          for (var e=c; e<=setLength-c; e++) {
-            finalDups[e] = finalDups[e+1];
-            console.log(finalDups);
-          }
-          finalDups.pop();
-        }
-      }
-    }
-    //finalDups = finRs.concat(finLs);
-  }
-  //console.log(finalDups);
-  return finalDups.toString();
+//  var numbers = [1,2,3,4,5,4];
+//
+//console.log([...new Set(numbers)])
 }
+//--now we need to get rid of the duplicates, eg ['2 wood', '2 wood']
+//  for (var c=0; c<finalDups.length; c++) {
+//    for (var d=0; d<finalDups.length; d++) {
+//	  console.log(`at c ${finalDups[c]} at d ${finalDups[d]}`);
+//      if (c>0&&finalDups[c]===finalDups[d]) {
+//		  finalDups.splice(c, 1);
+//		  console.log('entered');
+//	  }
+//    }
+//  }
+//  return finalDups.toString();
+//}
 
 //APARENTLY THE FINALDUPS ARRAY IS AT 1 LOL UGGHHH REEEE!
