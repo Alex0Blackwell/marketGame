@@ -4,7 +4,7 @@ mSlotGenBig();
 
 function marketTime() {
   var t0 = 15000;
-  var t1 = 90000;
+  var t1 = 75000;
   var rawTime0 = t0/1000;
   var rawTime1 = t1/1000;
   var mTime = setInterval(mSlotGen, t0);
@@ -21,7 +21,7 @@ function marketTime() {
     if (rawTime0===0) {
       rawTime0 = t0/1000;
     }
-    return rawTime0--;
+    return `${rawTime0--} secs`;
   }
 
   function mCountDwn1() {
@@ -32,9 +32,10 @@ function marketTime() {
 
     if (rawTime1===0) {
       rawTime1 = t1/1000;
+      return `${s} secs`;
     }
       else if (m===0) {
-        return `${s} secs`
+        return `${s} secs`;
       } else {
         return `${m} min ${s} secs`;
         }
@@ -43,7 +44,7 @@ function marketTime() {
 
 var lastPick;
 function mSlotGenBig() {
-  var mBigItems = ['electronics store', 'computer store', 'cafe', 'restaurant'];
+  var mBigItems = ['Electronics Store', 'Computer Store', 'Café', 'Restaurant'];
   var mBRand = Math.random()*10;
 
 
@@ -51,8 +52,8 @@ function mSlotGenBig() {
     if (lastPick===mBigItems[0]) {
       mSlotGenBig();
     } else {
-        document.getElementById('bMSlot0').innerHTML = mBigItems[0];
-		document.getElementById('bMSlot0').value = 'electronics store';
+        document.getElementById('bMSlot0').innerHTML = `${mBigItems[0]} for $${mBigPriceGen(0)}`;
+        document.getElementById('bMSlot0').value = 'electronics store';
       }
     lastPick = mBigItems[0];
   }
@@ -60,8 +61,8 @@ function mSlotGenBig() {
       if (lastPick===mBigItems[1]) {
         mSlotGenBig();
       } else {
-          document.getElementById('bMSlot0').innerHTML = mBigItems[1];
-		  document.getElementById('bMSlot0').value = 'computer store';
+          document.getElementById('bMSlot0').innerHTML = `${mBigItems[1]} for $${mBigPriceGen(1)}`;
+          document.getElementById('bMSlot0').value = 'computer store';
         }
       lastPick = mBigItems[1];
     }
@@ -69,8 +70,8 @@ function mSlotGenBig() {
         if (lastPick===mBigItems[2]) {
           mSlotGenBig();
         } else {
-            document.getElementById('bMSlot0').innerHTML = mBigItems[2];
-			document.getElementById('bMSlot0').value = 'computer store';
+            document.getElementById('bMSlot0').innerHTML = `${mBigItems[2]} for $${mBigPriceGen(2)}`;
+            document.getElementById('bMSlot0').value = 'cafe';
           }
         lastPick = mBigItems[2];
       }
@@ -78,8 +79,8 @@ function mSlotGenBig() {
           if (lastPick===mBigItems[3]) {
             mSlotGenBig();
           } else {
-              document.getElementById('bMSlot0').innerHTML = mBigItems[3];
-			  document.getElementById('bMSlot0').value = 'computer store';
+              document.getElementById('bMSlot0').innerHTML = `${mBigItems[3]} for $${mBigPriceGen(3)}`;
+              document.getElementById('bMSlot0').value = 'restaurant';
             }
           lastPick = mBigItems[3];
         }
@@ -98,42 +99,42 @@ function mSlotGen() { //function for generating market slot items
     if(randItem<25){ //wood
       var numItems0 = numOfItem(0);
       document.getElementById("mSlot"+i).innerHTML = `${numItems0} ${mSlotItems[0]} for $${mPriceGen(0,numItems0,i)}`;
-	  document.getElementById("mSlot"+i).value = 'wood';
+      document.getElementById("mSlot"+i).value = 'wood';
     }
       else if (randItem>=25&&randItem<45) { //brick
         var numItems1 = numOfItem(1);
         document.getElementById("mSlot"+i).innerHTML = `${numItems1} ${mSlotItems[1]} for $${mPriceGen(1,numItems1,i)}`;
-		document.getElementById("mSlot"+i).value = 'brick';
+        document.getElementById("mSlot"+i).value = 'brick';
       }
         else if (randItem>=45&&randItem<65) { //steel
           var numItems2 = numOfItem(2);
           document.getElementById("mSlot"+i).innerHTML = `${numItems2} ${mSlotItems[2]} for $${mPriceGen(2,numItems2,i)}`;
-		  document.getElementById("mSlot"+i).value = 'steel';
+          document.getElementById("mSlot"+i).value = 'steel';
         }
           else if (randItem>=65&&randItem<80) { //silver
             var numItems3 = numOfItem(3);
             document.getElementById("mSlot"+i).innerHTML = `${numItems3} ${mSlotItems[3]} for $${mPriceGen(3,numItems3,i)}`;
-			document.getElementById("mSlot"+i).value = 'silver';
+            document.getElementById("mSlot"+i).value = 'silver';
           }
             else if (randItem>=80&&randItem<87) { //gold
               var numItems4 = numOfItem(4);
               document.getElementById("mSlot"+i).innerHTML = `${numItems4} ${mSlotItems[4]} for $${mPriceGen(4,numItems4,i)}`;
-			  document.getElementById("mSlot"+i).value = 'gold';
+              document.getElementById("mSlot"+i).value = 'gold';
             }
               else if (randItem>=87&&randItem<93) { //platinum
                 var numItems5 = numOfItem(5);
                 document.getElementById("mSlot"+i).innerHTML = `${numItems5} ${mSlotItems[5]} for $${mPriceGen(5,numItems5,i)}`;
-				document.getElementById("mSlot"+i).value = 'platinum';
+                document.getElementById("mSlot"+i).value = 'platinum';
               }
                 else if (randItem>=93&&randItem<97) { //cell phone
                   var numItems6 = numOfItem(6);
                   document.getElementById("mSlot"+i).innerHTML = `${numItems6} ${mSlotItems[6]} for $${mPriceGen(6,numItems6,i)}`;
-				  document.getElementById("mSlot"+i).value = 'cell phone';
+                  document.getElementById("mSlot"+i).value = 'cell phone';
                 }
                   else if (randItem>=97&&randItem<=100) { //computer
                     var numItems7 = numOfItem(7);
                     document.getElementById("mSlot"+i).innerHTML = `${numItems7} ${mSlotItems[7]} for $${mPriceGen(7,numItems7,i)}`;
-					document.getElementById("mSlot"+i).value = 'computer';
+                    document.getElementById("mSlot"+i).value = 'computer';
                   }
   }
 }
@@ -151,7 +152,7 @@ function mPriceGen(a,b,i) { //a is a number 0-7, for the array reference of the 
     }
 }
 
-function mBigPriceGen(a) { //a is a number 0-3, for the array reference of the product; b is the amount of item; i is for the id call
+function mBigPriceGen(a) { //a is a number 0-3
   var mItemPrice = [10000,20000,25000,75000];
   //(medium +- (medium*.9/rand(+.1))/10 --> round)*number of items
   if (plusMinFn()) {
@@ -191,24 +192,24 @@ function botBuy(a) {
 function botBuy1() {
   var content = document.getElementById('bMSlot0').innerHTML.strike();
   document.getElementById('bMSlot0').innerHTML = content;
-  document.getElementById('mSlot0').value = false;
+  document.getElementById('bMSlot0').value = false;
 }
 
 var myItems = [];
 function buy(a,b) {
 	if(a===false) {
 		var content0 = document.getElementById('mSlot'+b).value;
-		
+
 		if(content0!=false) {
 			myItems.push(content0);
 			botBuy(b);
 		}
 		console.log(myItems);
 	}
-	
+
 	if(a===true) {
 		var content1 = document.getElementById('bMSlot0').value;
-		
+
 		if(content1!=false) {
 			myItems.push(content1);
 			botBuy1();
