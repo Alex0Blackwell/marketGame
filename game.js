@@ -214,25 +214,8 @@ function buy(a,b) {
 			botBuy1();
 		}
 	}
-
-  // for (var i=0; i<myItems.length; i++) {
-  //   var wood = [];
-  //   var brick = [];
-  //   var steel = [];
-  //   var silver = [];
-  //   var gold = [];
-  //   var platinum = [];
-  //   var cellPhone = [];
-  //   var computer = [];
-  //   var electronicsStore = [];
-  //   var computerStore = [];
-  //   var cafe = [];
-  //   var restaurant = [];
-  //
-  // }
-
+	
   invenCopy();
-  //console.log(myItems.toString());
   document.getElementById('inventory').innerHTML = invenCopy();
   console.log(`first items ${myItems}`);
 }
@@ -256,23 +239,3 @@ function invenCopy() {
   console.log(finalDups);
 	
   return [...new Set(finalDups)];
-	
-
-//  var numbers = [1,2,3,4,5,4];
-//
-//console.log([...new Set(numbers)])
-}
-//--now we need to get rid of the duplicates, eg ['2 wood', '2 wood']
-//  for (var c=0; c<finalDups.length; c++) {
-//    for (var d=0; d<finalDups.length; d++) {
-//	  console.log(`at c ${finalDups[c]} at d ${finalDups[d]}`);
-//      if (c>0&&finalDups[c]===finalDups[d]) {
-//		  finalDups.splice(c, 1);
-//		  console.log('entered');
-//	  }
-//    }
-//  }
-//  return finalDups.toString();
-//}
-
-//APARENTLY THE FINALDUPS ARRAY IS AT 1 LOL UGGHHH REEEE!
