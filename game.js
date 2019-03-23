@@ -213,23 +213,27 @@ function botBuy1() {
 var myItems = [];
 function buy(a,b) {
 	if(a===false) {
-    var moneyBool0 = moneyFn(parseInt(document.getElementById('mSlot'+b).value.split('~')[2]));
-		var content0 = document.getElementById('mSlot'+b).value;
-    money = moneyBool0[0];
-		if(moneyBool0[1]) {
-			myItems.push(content0);
-			botBuy(b);
-		}
+    var content0 = document.getElementById('mSlot'+b).value;
+    if (content0) {
+      var moneyBool0 = moneyFn(parseInt(content0.split('~')[2]));
+      money = moneyBool0[0];
+      if(moneyBool0[1]) {
+        myItems.push(content0);
+        botBuy(b);
+      }
+    }
 	}
 
-	if(a===true) { //havent done this bit yet
-    var moneyBool1 = moneyFn(parseInt(document.getElementById('bMSlot0').value.split('~')[2]));
-		var content1 = document.getElementById('bMSlot0').value;
-    money = moneyBool1[0];
-		if(moneyBool1[1]) {
-			myItems.push(content1);
-			botBuy1();
-		}
+	if(a===true) {
+    var content1 = document.getElementById('bMSlot0').value;
+    if (content1) {
+      var moneyBool1 = moneyFn(parseInt(content1.split('~')[2]));
+      money = moneyBool1[0];
+      if(moneyBool1[1]) {
+        myItems.push(content1);
+        botBuy1();
+      }
+    }
 	}
 
   document.getElementById('inventory').innerHTML = invenCopy();
@@ -307,4 +311,22 @@ function moneyFn(price) {
     return [money, true];
   }
   return [money, false];
+}
+
+function myMarket() {
+  var itemArr = invenCopy();
+  var parent = document.getElementById('container');
+  console.log(parent.firstChild);
+
+  while (parent.hasChildNodes()) { //this isnt going to work, just use a for i think
+    parent.removeChild(parent.firstChild);
+  }
+
+  for (var a=0; a<itemArr.length; a++) {
+    var newDiv = document.createElement('div');
+    newDiv.className = 'gridItem';
+    var newContent = document.createTextNode(itemArr[a]);
+    newDiv.appendChild(newContent);
+    document.getElementById('container').appendChild(newDiv);
+  }
 }
