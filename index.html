@@ -2,10 +2,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
     <title></title>
   </head>
   <body>
     <h1>Market</h1>
+    <u>Money</u>
+    <p id='moneyP'></p>
     <p>Market Refreshes in:</p>
     <p id='mRefreshT'></p><br>
     <u>Light Item Market</u>
@@ -28,7 +31,10 @@
 
 	<u>Inventory</u>
 	<p id='inventory'></p>
-
+    <br><p id='myMarket'><u>My Market</u></p>
+    <button type="button" onclick="myMarket()">Add More</button>
+      <div class="gridContainer" id="container">
+      </div>
     <script src="game.js" charset="utf-8"></script>
   </body>
 </html>
