@@ -1,5 +1,4 @@
-var numItems = [];
-var currItems = [];
+var money = 500;
 mSlotGen();
 marketTime();
 mSlotGenBig();
@@ -42,6 +41,7 @@ function marketTime() {
         return `${m} min ${s} secs`;
         }
   }
+  document.getElementById('moneyP').innerHTML = `$${money}`;
 }
 
 var lastPick;
@@ -54,8 +54,9 @@ function mSlotGenBig() {
     if (lastPick===mBigItems[0]) {
       mSlotGenBig();
     } else {
-        document.getElementById('bMSlot0').innerHTML = `${mBigItems[0]} for $${mBigPriceGen(0)}`;
-        document.getElementById('bMSlot0').value = '1 electronics store';
+        var bigPrice0 = mBigPriceGen(0);
+        document.getElementById('bMSlot0').innerHTML = `${mBigItems[0]} for $${bigPrice0}`;
+        document.getElementById('bMSlot0').value = `1~electronics store~${bigPrice0}`;
       }
     lastPick = mBigItems[0];
   }
@@ -63,8 +64,9 @@ function mSlotGenBig() {
       if (lastPick===mBigItems[1]) {
         mSlotGenBig();
       } else {
-          document.getElementById('bMSlot0').innerHTML = `${mBigItems[1]} for $${mBigPriceGen(1)}`;
-          document.getElementById('bMSlot0').value = '1 computer store';
+          var bigPrice1 = mBigPriceGen(1);
+          document.getElementById('bMSlot0').innerHTML = `${mBigItems[1]} for $${bigPrice1}`;
+          document.getElementById('bMSlot0').value = `1~computer store~${bigPrice1}`;
         }
       lastPick = mBigItems[1];
     }
@@ -72,8 +74,9 @@ function mSlotGenBig() {
         if (lastPick===mBigItems[2]) {
           mSlotGenBig();
         } else {
-            document.getElementById('bMSlot0').innerHTML = `${mBigItems[2]} for $${mBigPriceGen(2)}`;
-            document.getElementById('bMSlot0').value = '1 cafe';
+            var bigPrice2 = mBigPriceGen(2);
+            document.getElementById('bMSlot0').innerHTML = `${mBigItems[2]} for $${bigPrice2}`;
+            document.getElementById('bMSlot0').value = `1~cafe~${bigPrice2}`;
           }
         lastPick = mBigItems[2];
       }
@@ -81,8 +84,9 @@ function mSlotGenBig() {
           if (lastPick===mBigItems[3]) {
             mSlotGenBig();
           } else {
-              document.getElementById('bMSlot0').innerHTML = `${mBigItems[3]} for $${mBigPriceGen(3)}`;
-              document.getElementById('bMSlot0').value = '1 restaurant';
+              var bigPrice3 = mBigPriceGen(3);
+              document.getElementById('bMSlot0').innerHTML = `${mBigItems[3]} for $${bigPrice3}`;
+              document.getElementById('bMSlot0').value = `1~restaurant~${bigPrice3}`;
             }
           lastPick = mBigItems[3];
         }
@@ -93,7 +97,6 @@ function mSlotGen() { //function for generating market slot items
   var mSlotItems = ['wood', 'brick', 'steel', 'silver', 'gold', 'platinum', 'cell phone', 'computer']; //market slot item
   var mItemNum = (document.getElementById('mSlots').childNodes.length-1)/2; //get how many items
   numItems = [];
-  currItems = [];
 
 //-- this the the logic for getting rarity on the items. No they werent picked at random, this is MANY minutes of balancing
   for(i=0;i<mItemNum;i++) {
@@ -102,64 +105,53 @@ function mSlotGen() { //function for generating market slot items
 
     if(randItem<25){ //wood
       var numItems0 = numOfItem(0);
-	    //console.log(numItems0);
-	    numItems.push(numItems0);
-      currItems.push('wood');
-      document.getElementById("mSlot"+i).innerHTML = `${numItems0} ${mSlotItems[0]} for $${mPriceGen(0,numItems0,i)}`;
-      document.getElementById("mSlot"+i).value = `${numItems0} wood`;
+      var price0 = mPriceGen(0,numItems0,i);
+      document.getElementById("mSlot"+i).innerHTML = `${numItems0} ${mSlotItems[0]} for $${price0}`;
+      document.getElementById("mSlot"+i).value = `${numItems0}~wood~${price0}`;
     }
       else if (randItem>=25&&randItem<45) { //brick
         var numItems1 = numOfItem(1);
-		    numItems.push(numItems1);
-        currItems.push('brick');
-        document.getElementById("mSlot"+i).innerHTML = `${numItems1} ${mSlotItems[1]} for $${mPriceGen(1,numItems1,i)}`;
-        document.getElementById("mSlot"+i).value = `${numItems1} brick`;
+        var price1 = mPriceGen(1,numItems1,i);
+        document.getElementById("mSlot"+i).innerHTML = `${numItems1} ${mSlotItems[1]} for $${price1}`;
+        document.getElementById("mSlot"+i).value = `${numItems1}~brick~${price1}`;
       }
         else if (randItem>=45&&randItem<65) { //steel
           var numItems2 = numOfItem(2);
-		      numItems.push(numItems2);
-          currItems.push('steel');
-          document.getElementById("mSlot"+i).innerHTML = `${numItems2} ${mSlotItems[2]} for $${mPriceGen(2,numItems2,i)}`;
-          document.getElementById("mSlot"+i).value = `${numItems2} steel`;
+          var price2 = mPriceGen(2,numItems2,i);
+          document.getElementById("mSlot"+i).innerHTML = `${numItems2} ${mSlotItems[2]} for $${price2}`;
+          document.getElementById("mSlot"+i).value = `${numItems2}~steel~${price2}`;
         }
           else if (randItem>=65&&randItem<80) { //silver
             var numItems3 = numOfItem(3);
-			      numItems.push(numItems3);
-            currItems.push('silver');
-            document.getElementById("mSlot"+i).innerHTML = `${numItems3} ${mSlotItems[3]} for $${mPriceGen(3,numItems3,i)}`;
-            document.getElementById("mSlot"+i).value = `${numItems3} silver`;
+            var price3 = mPriceGen(3,numItems3,i);
+            document.getElementById("mSlot"+i).innerHTML = `${numItems3} ${mSlotItems[3]} for $${price3}`;
+            document.getElementById("mSlot"+i).value = `${numItems3}~silver~${price3}`;
           }
             else if (randItem>=80&&randItem<87) { //gold
               var numItems4 = numOfItem(4);
-			        numItems.push(numItems4);
-              currItems.push('gold');
-              document.getElementById("mSlot"+i).innerHTML = `${numItems4} ${mSlotItems[4]} for $${mPriceGen(4,numItems4,i)}`;
-              document.getElementById("mSlot"+i).value = `${numItems4} gold`;
+              var price4 = mPriceGen(4,numItems4,i);
+              document.getElementById("mSlot"+i).innerHTML = `${numItems4} ${mSlotItems[4]} for $${price4}`;
+              document.getElementById("mSlot"+i).value = `${numItems4}~gold~${price4}`;
             }
               else if (randItem>=87&&randItem<93) { //platinum
                 var numItems5 = numOfItem(5);
-				        numItems.push(numItems5);
-                currItems.push('platinum');
-                document.getElementById("mSlot"+i).innerHTML = `${numItems5} ${mSlotItems[5]} for $${mPriceGen(5,numItems5,i)}`;
-                document.getElementById("mSlot"+i).value = `${numItems5} platinum`;
+                var price5 = mPriceGen(5,numItems5,i);
+                document.getElementById("mSlot"+i).innerHTML = `${numItems5} ${mSlotItems[5]} for $${price5}`;
+                document.getElementById("mSlot"+i).value = `${numItems5}~platinum~${price5}`;
               }
                 else if (randItem>=93&&randItem<97) { //cell phone
                   var numItems6 = numOfItem(6);
-				          numItems.push(numItems6);
-                  currItems.push('cell phone');
-                  document.getElementById("mSlot"+i).innerHTML = `${numItems6} ${mSlotItems[6]} for $${mPriceGen(6,numItems6,i)}`;
-                  document.getElementById("mSlot"+i).value = `${numItems6} cellphone`;
+                  var price6 = mPriceGen(6,numItems6,i);
+                  document.getElementById("mSlot"+i).innerHTML = `${numItems6} ${mSlotItems[6]} for $${price6}`;
+                  document.getElementById("mSlot"+i).value = `${numItems6}~cellphone~${price6}`;
                 }
                   else if (randItem>=97&&randItem<=100) { //computer
                     var numItems7 = numOfItem(7);
-					          numItems.push(numItems7);
-                    currItems.push('computer');
-                    document.getElementById("mSlot"+i).innerHTML = `${numItems7} ${mSlotItems[7]} for $${mPriceGen(7,numItems7,i)}`;
-                    document.getElementById("mSlot"+i).value = `${numItems7} computer`;
+                    var price7 = mPriceGen(7,numItems7,i);
+                    document.getElementById("mSlot"+i).innerHTML = `${numItems7} ${mSlotItems[7]} for $${price7}`;
+                    document.getElementById("mSlot"+i).value = `${numItems7}~computer~${price7}`;
                   }
   }
-	//console.log(numItems);
-  //console.log(currItems);
 }
 
 function mPriceGen(a,b,i) { //a is a number 0-7, for the array reference of the product; b is the amount of item; i is for the id call
@@ -221,23 +213,27 @@ function botBuy1() {
 var myItems = [];
 function buy(a,b) {
 	if(a===false) {
+    var moneyBool0 = moneyFn(parseInt(document.getElementById('mSlot'+b).value.split('~')[2]));
 		var content0 = document.getElementById('mSlot'+b).value;
-		if(content0!=false) {
+    money = moneyBool0[0];
+		if(moneyBool0[1]) {
 			myItems.push(content0);
 			botBuy(b);
 		}
 	}
 
-	if(a===true) {
+	if(a===true) { //havent done this bit yet
+    var moneyBool1 = moneyFn(parseInt(document.getElementById('bMSlot0').value.split('~')[2]));
 		var content1 = document.getElementById('bMSlot0').value;
-
-		if(content1!=false) {
+    money = moneyBool1[0];
+		if(moneyBool1[1]) {
 			myItems.push(content1);
 			botBuy1();
 		}
 	}
 
   document.getElementById('inventory').innerHTML = invenCopy();
+  document.getElementById('moneyP').innerHTML = `$${money}`;
 }
 
 var wood = 0;
@@ -256,42 +252,42 @@ function invenCopy() {
   var finalInven = [];
 
   for (var i=0; i<myItems.length; i++) {
-    switch (myItems[i].slice(2).trim()) {
+    switch (myItems[i].split('~')[1]) {
       case 'wood':
-        wood += parseInt(myItems[i].slice(0, 2).trim());
+        wood += parseInt(myItems[i].split('~')[0]);
         break;
       case 'brick':
-        brick += parseInt(myItems[i].slice(0, 2).trim());
+        brick += parseInt(myItems[i].split('~')[0]);
         break;
       case 'steel':
-        steel += parseInt(myItems[i].slice(0, 2).trim());
+        steel += parseInt(myItems[i].split('~')[0]);
         break;
       case 'silver':
-        silver += parseInt(myItems[i].slice(0, 2).trim());
+        silver += parseInt(myItems[i].split('~')[0]);
         break;
       case 'gold':
-        gold += parseInt(myItems[i].slice(0, 2).trim());
+        gold += parseInt(myItems[i].split('~')[0]);
         break;
       case 'platinum':
-        platinum += parseInt(myItems[i].slice(0, 2).trim());
+        platinum += parseInt(myItems[i].split('~')[0]);
         break;
       case 'cellphone':
-        cellPhone += parseInt(myItems[i].slice(0, 2).trim());
+        cellPhone += parseInt(myItems[i].split('~')[0]);
         break;
       case 'computer':
-        computer += parseInt(myItems[i].slice(0, 2).trim());
+        computer += parseInt(myItems[i].split('~')[0]);
         break;
       case 'electronics store':
-        electronicsStore += parseInt(myItems[i].slice(0, 2).trim());
+        electronicsStore += parseInt(myItems[i].split('~')[0]);
         break;
       case 'computer store':
-        computerStore += parseInt(myItems[i].slice(0, 2).trim());
+        computerStore += parseInt(myItems[i].split('~')[0]);
         break;
       case 'cafe':
-        cafe += parseInt(myItems[i].slice(0, 2).trim());
+        cafe += parseInt(myItems[i].split('~')[0]);
         break;
       case 'restaurant':
-        restaurant += parseInt(myItems[i].slice(0, 2).trim());
+        restaurant += parseInt(myItems[i].split('~')[0]);
         break;
     }
       myItems = [];
@@ -303,4 +299,12 @@ function invenCopy() {
     }
   }
   return finalInven;
+}
+
+function moneyFn(price) {
+  if (money-price>=0) {
+    money -= price;
+    return [money, true];
+  }
+  return [money, false];
 }
