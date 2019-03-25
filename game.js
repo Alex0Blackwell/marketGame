@@ -1,4 +1,4 @@
-var money = 500;
+var money = 5000;
 mSlotGen();
 marketTime();
 mSlotGenBig();
@@ -316,17 +316,39 @@ function moneyFn(price) {
 function myMarket() {
   var itemArr = invenCopy();
   var parent = document.getElementById('container');
-  console.log(parent.firstChild);
 
-  while (parent.hasChildNodes()) { //this isnt going to work, just use a for i think
+  while (parent.hasChildNodes()) {
     parent.removeChild(parent.firstChild);
   }
 
   for (var a=0; a<itemArr.length; a++) {
     var newDiv = document.createElement('div');
     newDiv.className = 'gridItem';
-    var newContent = document.createTextNode(itemArr[a]);
-    newDiv.appendChild(newContent);
+    var amountType = document.createTextNode(itemArr[a]);
+
+    var up = document.createElement('P');
+    up.innerText = '▲';
+    up.setAttribute('id', 'upID'+a);
+
+    var down = document.createElement('P');
+    down.innerText = '▼';
+    down.setAttribute('id', 'downID'+a);
+
+    newDiv.appendChild(up);
+    newDiv.appendChild(amountType);
+    newDiv.appendChild(down);
     document.getElementById('container').appendChild(newDiv);
   }
+  for (var b=0; b<itemArr.length; b++) { //need to reference different id's to add listeners
+    document.getElementById('upID'+b).addEventListener('click', function(){
+      console.log('up');
+    })
+    document.getElementById('downID'+b).addEventListener('click', function(){
+      console.log('down');
+    })
+  }
+}
+
+function incDec() {
+  console.log('up');
 }
