@@ -326,13 +326,14 @@ function myMarket() {
     newDiv.className = 'gridItem';
     var amountType = document.createTextNode(itemArr[a]);
 
-    var up = document.createElement('P');
+    var up = document.createElement('p');
     up.innerText = '▲';
-    up.setAttribute('id', 'upID'+a);
+    up.setAttribute('id', 'upID~'+a);
+    //up.onclick = incDec();
 
-    var down = document.createElement('P');
+    var down = document.createElement('p');
     down.innerText = '▼';
-    down.setAttribute('id', 'downID'+a);
+    down.setAttribute('id', 'downID~'+a);
 
     newDiv.appendChild(up);
     newDiv.appendChild(amountType);
@@ -340,11 +341,15 @@ function myMarket() {
     document.getElementById('container').appendChild(newDiv);
   }
   for (var b=0; b<itemArr.length; b++) { //need to reference different id's to add listeners
-    document.getElementById('upID'+b).addEventListener('click', function(){
-      console.log('up');
+    document.getElementById('upID~'+b).addEventListener('click', function(){
+      var itemOrderNum0 = this.id.split('~')[1]
+      var amount0 = itemArr[itemOrderNum0].split(' ')[0];
+      console.log(amount0);
     })
-    document.getElementById('downID'+b).addEventListener('click', function(){
-      console.log('down');
+    document.getElementById('downID~'+b).addEventListener('click', function(){
+      var itemOrderNum1 = this.id.split('~')[1]
+      var amount1 = itemArr[itemOrderNum1].split(' ')[0];
+      console.log(amount1);
     })
   }
 }
