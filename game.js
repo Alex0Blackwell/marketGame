@@ -324,12 +324,15 @@ function myMarket() {
   for (var a=0; a<itemArr.length; a++) {
     var newDiv = document.createElement('div');
     newDiv.className = 'gridItem';
-    var amountType = document.createTextNode(itemArr[a]);
+
+    //var amountType = document.createTextNode(itemArr[a]);
+    var amountType = document.createElement('p');
+    amountType.innerText = itemArr[a];
+    amountType.setAttribute('id', 'typeID'+a);
 
     var up = document.createElement('p');
     up.innerText = '▲';
     up.setAttribute('id', 'upID~'+a);
-    //up.onclick = incDec();
 
     var down = document.createElement('p');
     down.innerText = '▼';
@@ -340,20 +343,34 @@ function myMarket() {
     newDiv.appendChild(down);
     document.getElementById('container').appendChild(newDiv);
   }
+  var maxQuant = [];
+  if (maxQuant.length===0) {
+    for (var c=0; c<itemArr.length; c++) {
+      maxQuant.push(parseInt(itemArr[c].split(' ')[0]));
+    }
+  }
   for (var b=0; b<itemArr.length; b++) { //need to reference different id's to add listeners
-    document.getElementById('upID~'+b).addEventListener('click', function(){
-      var itemOrderNum0 = this.id.split('~')[1]
-      var amount0 = itemArr[itemOrderNum0].split(' ')[0];
-      console.log(amount0);
+    document.getElementById('upID~'+b).addEventListener('click', function(){ //up stuff
+      var itemOrderNum0 = parseInt(this.id.split('~')[1]);
+      var amountOrig = parseInt(itemArr[itemOrderNum0].split(' ')[0]);
+
+      if (amountOrig<maxQuant[itemOrderNum0]) {
+        itemArr[itemOrderNum0] = `${amountOrig+1} ${itemArr[itemOrderNum0].split(' ')[1]}`;
+        document.getElementById('typeID'+itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
+      } else {
+        document.getElementById('typeID'+itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
+      }
     })
-    document.getElementById('downID~'+b).addEventListener('click', function(){
-      var itemOrderNum1 = this.id.split('~')[1]
-      var amount1 = itemArr[itemOrderNum1].split(' ')[0];
-      console.log(amount1);
+    var amountChange1;
+    document.getElementById('downID~'+b).addEventListener('click', function(){ //down stuff
+      var itemOrderNum1 = parseInt(this.id.split('~')[1]);
+      var amountOrig1 = parseInt(itemArr[itemOrderNum1].split(' ')[0]);
+      if (amountOrig1>0) {
+        itemArr[itemOrderNum1] = `${amountOrig1-1} ${itemArr[itemOrderNum1].split(' ')[1]}`;
+        document.getElementById('typeID'+itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
+      } else {
+        document.getElementById('typeID'+itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
+      }
     })
   }
-}
-
-function incDec() {
-  console.log('up');
 }
