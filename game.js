@@ -321,13 +321,19 @@ function myMarket() {
     parent.removeChild(parent.firstChild);
   }
 
+  var maxQuant = [];
+  if (maxQuant.length===0) {
+    for (var c=0; c<itemArr.length; c++) {
+      maxQuant.push(parseInt(itemArr[c].split(' ')[0]));
+    }
+  }
+
   for (var a=0; a<itemArr.length; a++) {
     var newDiv = document.createElement('div');
     newDiv.className = 'gridItem';
 
-    //var amountType = document.createTextNode(itemArr[a]);
     var amountType = document.createElement('p');
-    amountType.innerText = itemArr[a];
+    amountType.innerText = `${itemArr[a].split(' ')[0]}/${maxQuant[a]} ${itemArr[a].split(' ')[1]}`;
     amountType.setAttribute('id', 'typeID'+a);
 
     var up = document.createElement('p');
@@ -338,26 +344,32 @@ function myMarket() {
     down.innerText = '▼';
     down.setAttribute('id', 'downID~'+a);
 
+    var input = document.createElement('input');
+    input.type = 'number';
+    input.setAttribute('id', 'input~'+a);
+
+    var confirm = document.createElement('button');
+    confirm.innerText = 'Advertise';
+    confirm.setAttribute('id', 'confirm~'+a);
+
     newDiv.appendChild(up);
     newDiv.appendChild(amountType);
     newDiv.appendChild(down);
+    newDiv.appendChild(input);
+    newDiv.appendChild(confirm);
     document.getElementById('container').appendChild(newDiv);
   }
-  var maxQuant = [];
-  if (maxQuant.length===0) {
-    for (var c=0; c<itemArr.length; c++) {
-      maxQuant.push(parseInt(itemArr[c].split(' ')[0]));
-    }
-  }
+
   for (var b=0; b<itemArr.length; b++) { //need to reference different id's to add listeners
     document.getElementById('upID~'+b).addEventListener('click', function(){ //up stuff
       var itemOrderNum0 = parseInt(this.id.split('~')[1]);
       var amountOrig = parseInt(itemArr[itemOrderNum0].split(' ')[0]);
 
       if (amountOrig<maxQuant[itemOrderNum0]) {
-        itemArr[itemOrderNum0] = `${amountOrig+1} ${itemArr[itemOrderNum0].split(' ')[1]}`;
+        itemArr[itemOrderNum0] = `${amountOrig+1}/${maxQuant[itemOrderNum0]} ${itemArr[itemOrderNum0].split(' ')[1]}`;
         document.getElementById('typeID'+itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
       } else {
+        itemArr[itemOrderNum0] = `${amountOrig}/${maxQuant[itemOrderNum0]} ${itemArr[itemOrderNum0].split(' ')[1]}`;
         document.getElementById('typeID'+itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
       }
     })
@@ -366,11 +378,25 @@ function myMarket() {
       var itemOrderNum1 = parseInt(this.id.split('~')[1]);
       var amountOrig1 = parseInt(itemArr[itemOrderNum1].split(' ')[0]);
       if (amountOrig1>0) {
-        itemArr[itemOrderNum1] = `${amountOrig1-1} ${itemArr[itemOrderNum1].split(' ')[1]}`;
+        itemArr[itemOrderNum1] = `${amountOrig1-1}/${maxQuant[itemOrderNum1]} ${itemArr[itemOrderNum1].split(' ')[1]}`;
         document.getElementById('typeID'+itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
       } else {
         document.getElementById('typeID'+itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
       }
+    })
+//------------------------------------------------------------------------------
+    document.getElementById('confirm~'+b).addEventListener('click', function(){ //button stuff
+      var itemOrderNum0 = parseInt(this.id.split('~')[1]);
+      var value = document.getElementById('input~'+itemOrderNum0).value;
+      if (value>money) {
+        document.getElementById('input~'+itemOrderNum0).value = money;
+      }
+        else if (value<0) {
+          document.getElementById('input~'+itemOrderNum0).value = 0;
+        } else {
+            money = moneyFn(value)[0];
+            document.getElementById('moneyP').innerHTML = `$${money}`; //wait this is opposite lol
+        }
     })
   }
 }
