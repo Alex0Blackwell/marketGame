@@ -394,8 +394,48 @@ function myMarket() {
         else if (value<0) {
           document.getElementById('input~'+itemOrderNum0).value = 0;
         } else {
-            money = moneyFn(value)[0];
-            document.getElementById('moneyP').innerHTML = `$${money}`; //wait this is opposite lol
+	var type = document.getElementById('typeID'+itemOrderNum0).innerHTML; //typeID0
+	switch (type.split(' ')[1]) {
+      	case 'wood':
+		wood -= parseInt(type.charAt(0));
+		break;
+      	case 'brick':
+		brick -= parseInt(type.charAt(0));
+		break;
+	case 'steel':
+		steel -= parseInt(type.charAt(0));
+		break;
+	case 'silver':
+		silver -= parseInt(type.charAt(0));
+		break;
+	case 'gold':
+		gold -= parseInt(type.charAt(0));
+     		break;
+     	case 'platinum':
+     		platinum -= parseInt(type.charAt(0));
+     		break;
+     	case 'cellphone':
+     		cellPhone -= parseInt(type.charAt(0));
+     		break;
+     	case 'computer':
+     		computer -= parseInt(type.charAt(0));
+     		break;
+     	case 'electronics store':
+     		electronicsStore -= parseInt(type.charAt(0));
+     		break;
+     	case 'computer store':
+     		computerStore -= parseInt(type.charAt(0));
+     		break;
+     	case 'cafe':
+     		cafe -= parseInt(type.charAt(0));
+     		break;
+     	case 'restaurant':
+     		restaurant -= parseInt(type.charAt(0));
+     		break;
+    	}
+	document.getElementById('inventory').innerHTML = invenCopy(); //are u screaming yet... ik ill get there, just making it work first	
+        money = moneyFn(value)[0];
+        document.getElementById('moneyP').innerHTML = `$${money}`; //wait this is opposite lol
         }
     })
   }
