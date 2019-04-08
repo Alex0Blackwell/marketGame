@@ -348,6 +348,7 @@ function myMarket() {
     var input = document.createElement('input');
     input.type = 'number';
     input.setAttribute('id', 'input~'+a);
+    input.value = itemType(itemArr[a].split(' ')[1], itemArr[a].split(' ')[0]);
 
     var confirm = document.createElement('button');
     confirm.innerText = 'Advertise';
@@ -378,7 +379,7 @@ function myMarket() {
     document.getElementById('downID~'+b).addEventListener('click', function(){ //down stuff
       var itemOrderNum1 = parseInt(this.id.split('~')[1]);
       var amountOrig1 = parseInt(itemArr[itemOrderNum1].split(' ')[0]);
-      if (amountOrig1>0) {
+      if (amountOrig1>1) {
         itemArr[itemOrderNum1] = `${amountOrig1-1}/${maxQuant[itemOrderNum1]} ${itemArr[itemOrderNum1].split(' ')[1]}`;
         document.getElementById('typeID'+itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
       } else {
@@ -389,78 +390,128 @@ function myMarket() {
     document.getElementById('confirm~'+b).addEventListener('click', function(){ //button stuff
       var itemOrderNum0 = parseInt(this.id.split('~')[1]);
       var value = document.getElementById('input~'+itemOrderNum0).value;
+	  var div = document.getElementById("myLiveItems");
+      var nodeList = div.getElementsByTagName("div").length;
 
       if (value<0) {
         document.getElementById('input~'+itemOrderNum0).value = 0;
-      } else {
-	      var type = document.getElementById('typeID'+itemOrderNum0).innerHTML; //typeID0
-	      switch (type.split(' ')[1]) {
+      } else if(nodeList<6) {
+	var type = document.getElementById('typeID'+itemOrderNum0).innerHTML; //typeID0
+	switch (type.split(' ')[1]) {
       	   case 'wood':
-             hostAppend(itemOrderNum0, type, 'Wood');
+             hostAppend(itemOrderNum0, type, 'Wood', value);
              wood -= parseInt(type.split('/')[0]);
-		         break;
+             break;
       	   case 'brick':
-           hostAppend(itemOrderNum0, type, 'Brick');
-		         brick -= parseInt(type.split('/')[0]);
-		         break;
-	         case 'steel':
-           hostAppend(itemOrderNum0, type, 'Steel');
-		         steel -= parseInt(type.split('/')[0]);
-		         break;
-	         case 'silver':
-           hostAppend(itemOrderNum0, type, 'Silver');
-		         silver -= parseInt(type.split('/')[0]);
-		         break;
-	         case 'gold':
-           hostAppend(itemOrderNum0, type, 'Gold');
-		         gold -= parseInt(type.split('/')[0]);
-     		     break;
-     	     case 'platinum':
-           hostAppend(itemOrderNum0, type, 'Platinum');
-     		     platinum -= parseInt(type.split('/')[0]);
-     		     break;
-     	     case 'cellphone':
-           hostAppend(itemOrderNum0, type, 'Cell Phone');
-     		     cellPhone -= parseInt(type.split('/')[0]);
-     		     break;
-     	     case 'computer':
-           hostAppend(itemOrderNum0, type, 'Computer');
-     		     computer -= parseInt(type.split('/')[0]);
-     		     break;
-     	     case 'electronicsStore': //this is pretty trash... fix this at some point
-           hostAppend(itemOrderNum0, type, 'Electronics Store');
-     		     electronicsStore -= parseInt(type.split('/')[0]);
-     		     break;
-     	     case 'computerStore':
-           hostAppend(itemOrderNum0, type, 'Computer Store');
-     		     computerStore -= parseInt(type.split('/')[0]);
-     		     break;
-     	     case 'cafe':
-           hostAppend(itemOrderNum0, type, 'Café');
-     		     cafe -= parseInt(type.split('/')[0]);
-     		     break;
-     	     case 'restaurant':
-           hostAppend(itemOrderNum0, type, 'Restaurant');
-     		     restaurant -= parseInt(type.split('/')[0]);
-     		     break;
+             hostAppend(itemOrderNum0, type, 'Brick', value);
+	     brick -= parseInt(type.split('/')[0]);
+	     break;
+	   case 'steel':
+             hostAppend(itemOrderNum0, type, 'Steel', value);
+	     steel -= parseInt(type.split('/')[0]);
+	     break;
+	   case 'silver':
+             hostAppend(itemOrderNum0, type, 'Silver', value);
+	     silver -= parseInt(type.split('/')[0]);
+	     break;
+	   case 'gold':
+             hostAppend(itemOrderNum0, type, 'Gold', value);
+             gold -= parseInt(type.split('/')[0]);
+     	     break;
+     	   case 'platinum':
+             hostAppend(itemOrderNum0, type, 'Platinum', value);
+     	     platinum -= parseInt(type.split('/')[0]);
+     	     break;
+     	   case 'cellphone':
+             hostAppend(itemOrderNum0, type, 'Cell Phone', value);
+     	     cellPhone -= parseInt(type.split('/')[0]);
+             break;
+     	   case 'computer':
+             hostAppend(itemOrderNum0, type, 'Computer', value);
+     	     computer -= parseInt(type.split('/')[0]);
+     	     break;
+     	   case 'electronicsStore': //this is pretty trash... fix this at some point
+             hostAppend(itemOrderNum0, type, 'Electronics Store', value);
+     	     electronicsStore -= parseInt(type.split('/')[0]);
+     	     break;
+     	   case 'computerStore':
+             hostAppend(itemOrderNum0, type, 'Computer Store', value);
+     	     computerStore -= parseInt(type.split('/')[0]);
+     	     break;
+     	   case 'cafe':
+             hostAppend(itemOrderNum0, type, 'Café', value);
+     	     cafe -= parseInt(type.split('/')[0]);
+     	     break;
+     	   case 'restaurant':
+             hostAppend(itemOrderNum0, type, 'Restaurant', value);
+     	     restaurant -= parseInt(type.split('/')[0]);
+     	     break;
     	  }
-        //var newInven = invenCopy();
-        //document.getElementById('typeID'+itemOrderNum0).innerHTML = `${newInven[itemOrderNum0].split(' ')[0]}/${newInven[itemOrderNum0].split(' ')[0]} ${newInven[itemOrderNum0].split(' ')[1]}`;
         myMarket();
         document.getElementById('inventory').innerHTML = invenCopy(); //are u screaming yet... ik ill get there, just making it work first
         money = moneyFn(value)[0];
         document.getElementById('moneyP').innerHTML = `$${money}`; //wait this is opposite lol
-      }
+      } else {
+		  alert('you dont have enough slots');
+	  }
     })
   }
 }
 
-function hostAppend(index, content, type) {
-  var amount = document.getElementById('typeID'+index).innerHTML.split('/')[0];
-  var newDiv = document.createElement('div');
-  newDiv.className = 'gridItem';
-  var newItem = document.createElement('p');
-  newItem.innerText = `${amount} ${type}`;
-  newDiv.appendChild(newItem);
-  document.getElementById('myLiveItems').appendChild(newDiv);
+function hostAppend(index, content, type, price) { //maybe put this in the fn.^^ so dont have to have so many parameters
+    var amount = document.getElementById('typeID'+index).innerHTML.split('/')[0];
+    var newDiv = document.createElement('div');
+    newDiv.className = 'gridItem';
+    var newItem = document.createElement('p');
+    newItem.innerText = `${amount} ${type}`;
+    var itemPrice = document.createElement('p');
+    itemPrice.innerText = `$${price}`;
+    var deleteBtn = document.createElement('button');
+    deleteBtn.innerText = 'delete';
+    deleteBtn.onclick = function(){newDiv.style.display = 'none';}
+    newDiv.appendChild(newItem);
+    newDiv.appendChild(itemPrice);
+    newDiv.appendChild(deleteBtn);
+    document.getElementById('myLiveItems').appendChild(newDiv);
+}
+
+function itemType(type, amount) {
+	  switch (type) {
+      	   case 'wood':
+	     return amount*10;
+	     break;
+      	   case 'brick':
+	     return amount*15;
+	     break;
+	   case 'steel':
+	     return amount*25;
+	     break;
+	   case 'silver':
+	     return amount*50;
+	     break;
+	   case 'gold':
+	     return amount*100;
+     	     break;
+     	   case 'platinum':
+             return amount*150;
+     	     break;
+     	   case 'cellphone':
+	     return amount*1000;
+     	     break;
+     	   case 'computer':
+	     return amount*1500;
+     	     break;
+     	   case 'electronicsStore': //this is pretty trash... fix this at some point
+             return amount*10000; 
+	     break;
+     	   case 'computerStore':
+     	     return amount*20000; 
+	     break;
+     	   case 'cafe':
+     	     return amount*25000; 
+	     break;
+     	   case 'restaurant':
+             return amount*75000; 
+	     break;
+    	  }
 }
