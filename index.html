@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head><!DOCTYPE html>
-<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles.css">
@@ -28,17 +26,19 @@
     </div><br>
     <u>Large Market Item</u>
     <p>Market Refreshes in:</p>
+    <p>Reference for Average Prices:</p>
     <p id='mBRefreshT'></p>
     <div id="mSlotsBig">
+      <p>Electronics Store:$10,000  Computer Store:$20,000  Café:$25,000  Restaurant:$75,000</p>
       <p id='bMSlot0' onclick="buy(true)"></p>
     </div>
 
 	<u>Inventory</u>
 	<p id='inventory'></p>
     <br><p id='myMarket'><u>My Market</u></p>
-    <button type="button" onclick="myMarket()">Add More</button>
-      <div class="gridContainer" id="container">
-      </div>
+    <div class="gridContainer" id="myLiveItems"> </div>
+    <p>Add Items to My Market:</p>
+    <div class="gridContainer" id="container"> </div>
     <script src="game.js" charset="utf-8"></script>
   </body>
 </html>
