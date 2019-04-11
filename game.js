@@ -48,7 +48,6 @@ function marketTime() {
 }
 
 var lastPick;
-
 function mSlotGenBig() {
   var mBigItems = ['Electronics Store', 'Computer Store', 'Café', 'Restaurant'];
   var mBRand = Math.random() * 10;
@@ -156,7 +155,7 @@ function mPriceGen(a, b, i) { //a is a number 0-7, for the array reference of th
   } else {
     var rawPrice = (mItemPrice[a] - (mItemPrice[a] * 0.9 / (Math.random() + 0.1)) / 10).toFixed();
 
-    setTimeout(botBuy, (rawPrice / mItemPrice[a] * 10000 - Math.random() * 2), i);
+    setTimeout(botBuy, (rawPrice / mItemPrice[a] * 10000 - Math.random() * 2), i); //for buying the items
     return (rawPrice) * b;
   }
 }
@@ -204,7 +203,6 @@ function botBuy1() {
 }
 
 var myItems = [];
-
 function buy(a, b) {
   if (a === false) {
     var content0 = document.getElementById('mSlot' + b).value;
@@ -343,7 +341,7 @@ function myMarket() {
     var input = document.createElement('input');
     input.type = 'number';
     input.setAttribute('id', 'input~' + a);
-    input.value = itemType(itemArr[a].replace(/[0-9]|\/|/g, '').trim(), itemArr[a].split(' ')[0]);
+    input.value = itemType(itemArr[a].replace(/[0-9]|\/|/g, '').trim())*itemArr[a].split(' ')[0];
 
     var confirm = document.createElement('button');
     confirm.innerText = 'Advertise';
@@ -366,11 +364,11 @@ function myMarket() {
       if (amountOrig < maxQuant[itemOrderNum0]) {
         itemArr[itemOrderNum0] = `${amountOrig+1}/${maxQuant[itemOrderNum0]} ${itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim()}`;
         document.getElementById('typeID' + itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
-        document.getElementById('input~' + itemOrderNum0).value = itemType(itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim(), amountOrig + 1);
+        document.getElementById('input~' + itemOrderNum0).value = itemType(itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim())*(amountOrig+1);
       } else {
         itemArr[itemOrderNum0] = `${amountOrig}/${maxQuant[itemOrderNum0]} ${itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim()}`;
         document.getElementById('typeID' + itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
-        document.getElementById('input~' + itemOrderNum0).value = itemType(itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim(), amountOrig);
+        document.getElementById('input~' + itemOrderNum0).value = itemType(itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim())*amountOrig;
       }
     })
     var amountChange1;
@@ -381,11 +379,11 @@ function myMarket() {
       if (amountOrig1 > 1) {
         itemArr[itemOrderNum1] = `${amountOrig1-1}/${maxQuant[itemOrderNum1]} ${itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim()}`;
         document.getElementById('typeID' + itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
-        document.getElementById('input~' + itemOrderNum1).value = itemType(itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim(), amountOrig1 - 1);
+        document.getElementById('input~' + itemOrderNum1).value = itemType(itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim())*(amountOrig1 - 1);
       } else {
         itemArr[itemOrderNum1] = `${amountOrig1}/${maxQuant[itemOrderNum1]} ${itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim()}`;
         document.getElementById('typeID' + itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
-        document.getElementById('input~' + itemOrderNum1).value = itemType(itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim(), amountOrig1);
+        document.getElementById('input~' + itemOrderNum1).value = itemType(itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim())*(amountOrig1);
       }
     })
     //------------------------------------------------------------------------------
@@ -460,62 +458,76 @@ function myMarket() {
   }
 }
 //hostAppend(itemOrderNum0, type, 'Electronics Store', value);
+
+// var div = document.getElementById("myLiveItems");
+// var nodeList = div.getElementsByTagName("div").length;
+
+
 function hostAppend(index, content, type, price) { //maybe put this in the fn.^^ so dont have to have so many parameters
+  var div = document.getElementById("myLiveItems");
+  var nodeList = div.getElementsByTagName("div").length;
+
   var amount = document.getElementById('typeID' + index).innerHTML.split('/')[0];
   var newDiv = document.createElement('div');
   newDiv.className = 'gridItem';
   var newItem = document.createElement('p');
   newItem.innerText = `${amount} ${type}`;
+  newItem.setAttribute('id', 'MMhost' + nodeList);
   var itemPrice = document.createElement('p');
   itemPrice.innerText = `$${price}`;
   var deleteBtn = document.createElement('button');
   deleteBtn.innerText = 'delete';
-  deleteBtn.onclick = function() {
-    newDiv.remove();
-  }
+  deleteBtn.onclick = function() {newDiv.remove();}
   newDiv.appendChild(newItem);
   newDiv.appendChild(itemPrice);
   newDiv.appendChild(deleteBtn);
   document.getElementById('myLiveItems').appendChild(newDiv);
+  setTimeout(botBuyMM, Math.pow(price / (itemType(type)*amount),3) * 20000, nodeList, newDiv); //for buying my hosted items
 }
 
-function itemType(type, amount) {
+function itemType(type) { //input autoprice
   switch (type) {
     case 'Wood':
-      return amount * 10;
+      return 10;
       break;
     case 'Brick':
-      return amount * 15;
+      return 15;
       break;
     case 'Steel':
-      return amount * 25;
+      return 25;
       break;
     case 'Silver':
-      return amount * 50;
+      return 50;
       break;
     case 'Gold':
-      return amount * 100;
+      return 100;
       break;
     case 'Platinum':
-      return amount * 150;
+      return 150;
       break;
     case 'Cell Phone':
-      return amount * 1000;
+      return 1000;
       break;
     case 'Computer':
-      return amount * 1500;
+      return 1500;
       break;
     case 'Electronics Store':
-      return amount * 10000;
+      return 10000;
       break;
     case 'Computer Store':
-      return amount * 20000;
+      return 20000;
       break;
     case 'Cafe':
-      return amount * 25000;
+      return 25000;
       break;
     case 'Restaurant':
-      return amount * 75000;
+      return 75000;
       break;
   }
+}
+
+function botBuyMM(index, deleteSlot) {
+  var content = document.getElementById('MMhost' + index).innerHTML.strike();
+  document.getElementById('MMhost' + index).innerHTML = content;
+  setTimeout(function(){deleteSlot.remove();}, 2000);
 }
