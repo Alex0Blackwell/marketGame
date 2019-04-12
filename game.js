@@ -191,7 +191,6 @@ function buy(id, index) {
         botBuy(id, index);
       }
     }
-
   document.getElementById('inventory').innerHTML = invenCopy();
   document.getElementById('moneyP').innerHTML = `$${money}`;
   myMarket();
@@ -214,44 +213,7 @@ function invenCopy() {
   var finalInven = [];
 
   for (var i = 0; i < myItems.length; i++) {
-    switch (myItems[i].split('~')[1]) {
-      case 'Wood':
-        wood += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Brick':
-        brick += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Steel':
-        steel += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Silver':
-        silver += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Gold':
-        gold += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Platinum':
-        platinum += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Cell Phone':
-        cellPhone += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Computer':
-        computer += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Electronics Store':
-        electronicsStore += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Computer Store':
-        computerStore += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Cafe':
-        cafe += parseInt(myItems[i].split('~')[0]);
-        break;
-      case 'Restaurant':
-        restaurant += parseInt(myItems[i].split('~')[0]);
-        break;
-    }
+	itemType(myItems[i].split('~')[1], parseInt(myItems[i].split('~')[0]));
     myItems = [];
   }
   var amountArr = [`${wood} Wood`, `${brick} Brick`, `${steel} Steel`, `${silver} Silver`, `${gold} Gold`, `${platinum} Platinum`, `${cellPhone} Cell Phone`, `${computer} Computer`, `${electronicsStore} Electronics Store`, `${computerStore} Computer Store`, `${cafe} Cafe`, `${restaurant} Restaurant`];
@@ -422,7 +384,6 @@ function myMarket() {
   }
 }
 
-
 function hostAppend(index, content, type, price) { //maybe put this in the fn.^^ so dont have to have so many parameters
   var div = document.getElementById("myLiveItems");
   var nodeList = div.getElementsByTagName("div").length;
@@ -445,43 +406,44 @@ function hostAppend(index, content, type, price) { //maybe put this in the fn.^^
   setTimeout(botBuyMM, Math.pow(price / (itemType(type)*amount),3) * 20000, nodeList, newDiv); //for buying my hosted items
 }
 
-function itemType(type) { //input autoprice
+
+function itemType(type, amount) {
   switch (type) {
     case 'Wood':
-      return 10;
+	  return ((amount) ? (wood += amount) : 10);
       break;
     case 'Brick':
-      return 15;
+	  return ((amount) ? (brick += amount) : 15);
       break;
     case 'Steel':
-      return 25;
+	  return ((amount) ? (steel += amount) : 25);
       break;
     case 'Silver':
-      return 50;
+	  return ((amount) ? (silver += amount) : 50);
       break;
     case 'Gold':
-      return 100;
+	  return ((amount) ? (gold += amount) : 100);
       break;
     case 'Platinum':
-      return 150;
+	  return ((amount) ? (platinum += amount) : 150);
       break;
     case 'Cell Phone':
-      return 1000;
+	  return ((amount) ? (cellPhone += amount) : 1000);
       break;
     case 'Computer':
-      return 1500;
+	  return ((amount) ? (computer += amount) : 1500);
       break;
     case 'Electronics Store':
-      return 10000;
+	  return ((amount) ? (electronicsStore += amount) : 10000);
       break;
     case 'Computer Store':
-      return 20000;
+	  return ((amount) ? (computerStore += amount) : 20000);
       break;
     case 'Cafe':
-      return 25000;
+	  return ((amount) ? (cafe += amount) : 25000);
       break;
     case 'Restaurant':
-      return 75000;
+	  return ((amount) ? (restaurant += amount) : 75000);
       break;
   }
 }
