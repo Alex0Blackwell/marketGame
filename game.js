@@ -283,37 +283,35 @@ function myMarket() {
 
 
   for (var c = 0; c < itemArr.length; c++) { //need to reference different id's to add listeners
-    document.getElementById('upID~' + c).addEventListener('click', function() { //up stuff
+    document.getElementById('upID~' + c).addEventListener('click', function() { //up
       var itemOrderNum0 = parseInt(this.id.split('~')[1]);
       var amountOrig = parseInt(itemArr[itemOrderNum0].split(' ')[0]);
 
       if (amountOrig < maxQuant[itemOrderNum0]) {
         itemArr[itemOrderNum0] = `${amountOrig+1}/${maxQuant[itemOrderNum0]} ${itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim()}`;
-        document.getElementById('typeID' + itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
         document.getElementById('input~' + itemOrderNum0).value = itemType(itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim())*(amountOrig+1);
       } else {
         itemArr[itemOrderNum0] = `${amountOrig}/${maxQuant[itemOrderNum0]} ${itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim()}`;
-        document.getElementById('typeID' + itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
         document.getElementById('input~' + itemOrderNum0).value = itemType(itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim())*amountOrig;
       }
+	  document.getElementById('typeID' + itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
     })
-    var amountChange1;
-    document.getElementById('downID~' + c).addEventListener('click', function() { //down stuff
+	  
+    document.getElementById('downID~' + c).addEventListener('click', function() { //down
       var itemOrderNum1 = parseInt(this.id.split('~')[1]);
       var amountOrig1 = parseInt(itemArr[itemOrderNum1].split(' ')[0]);
 
       if (amountOrig1 > 1) {
         itemArr[itemOrderNum1] = `${amountOrig1-1}/${maxQuant[itemOrderNum1]} ${itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim()}`;
-        document.getElementById('typeID' + itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
         document.getElementById('input~' + itemOrderNum1).value = itemType(itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim())*(amountOrig1 - 1);
       } else {
         itemArr[itemOrderNum1] = `${amountOrig1}/${maxQuant[itemOrderNum1]} ${itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim()}`;
-        document.getElementById('typeID' + itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
         document.getElementById('input~' + itemOrderNum1).value = itemType(itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim())*(amountOrig1);
       }
+	  document.getElementById('typeID' + itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
     })
     //------------------------------------------------------------------------------
-    document.getElementById('confirm~' + c).addEventListener('click', function() { //advertise stuff
+    document.getElementById('confirm~' + c).addEventListener('click', function() { //advertise
       var itemOrderNum0 = parseInt(this.id.split('~')[1]);
       var value = document.getElementById('input~' + itemOrderNum0).value;
       var div = document.getElementById("myLiveItems");
@@ -322,7 +320,7 @@ function myMarket() {
       if (value < 0) {
         document.getElementById('input~' + itemOrderNum0).value = 0;
       } else if (nodeList < 6) {
-        var type = document.getElementById('typeID' + itemOrderNum0).innerHTML; //typeID0
+        var type = document.getElementById('typeID' + itemOrderNum0).innerHTML;
         switch (type.replace(/[0-9]|\/|/g, '').trim()) {
           case 'Wood':
             hostAppend(itemOrderNum0, type, 'Wood', value);
