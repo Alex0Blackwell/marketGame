@@ -5,7 +5,7 @@ mSlotGenBig();
 
 function marketTime() {
   var t0 = 15000;
-  var t1 = 2000;
+  var t1 = 75000;
   var rawTime0 = t0 / 1000;
   var rawTime1 = t1 / 1000;
   var mTime = setInterval(mSlotGen, t0);
@@ -142,24 +142,24 @@ function mSlotGen() { //function for generating market slot items
 function mPriceGen(index, amount, i) { //a is a number 0-7 for the array index of the product; b is the amount of item; i is for the id call
   var mItemPrice = [10, 15, 25, 50, 100, 150, 1000, 1500];
   //(medium +- (medium*.9/rand(+.1))/10 --> round)*number of items
-  if (plusMinFn()) {
+  if (Math.random()>.5) {
     return ((mItemPrice[index] + (mItemPrice[index] * 0.9 / (Math.random() + 0.1)) / 10).toFixed()) * amount;
   } else {
     var rawPrice = (mItemPrice[index] - (mItemPrice[index] * 0.9 / (Math.random() + 0.1)) / 10).toFixed();
 
-    setTimeout(botBuy, (rawPrice / mItemPrice[index] * 10000 - Math.random() * 2), i); //for buying the items
-    return (rawPrice) * amount;
+    setTimeout(botBuy, (rawPrice / mItemPrice[index] * 10000),'mSlot', i); //for buying the items
+    return (rawPrice * amount);
   }
 }
 
-function mBigPriceGen(a) { //a is a number 0-3
+function mBigPriceGen(index) { //a is a number 0-3
   var mItemPrice = [10000, 20000, 25000, 75000];
-  //(medium +- (medium*.9/rand(+.1))/10 --> round)*number of items
-  if (plusMinFn()) {
-    return ((mItemPrice[a] + (mItemPrice[a] * 0.9 / (Math.random() + 0.1)) / 10).toFixed());
+
+  if (Math.random()>.5) {
+    return ((mItemPrice[index] + (mItemPrice[index] * 0.9 / (Math.random() + 0.1)) / 10).toFixed());
   } else {
-    var rawPrice1 = (mItemPrice[a] - (mItemPrice[a] * 0.9 / (Math.random() + 0.1)) / 10).toFixed();
-    setTimeout(botBuy1, (rawPrice1 / mItemPrice[a] * 10000 - Math.random() * 2));
+    var rawPrice1 = (mItemPrice[index] - (mItemPrice[index] * 0.9 / (Math.random() + 0.1)) / 10).toFixed();
+    setTimeout(botBuy, (rawPrice1 / mItemPrice[index] * 10000), 'bMSlot', 0);
     return rawPrice1
   }
 }
@@ -174,51 +174,23 @@ function numOfItem(a) {
   }
 }
 
-function plusMinFn() {
-  if (Math.random() < 0.5) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function botBuy(a) {
-  var content = document.getElementById('mSlot' + a).innerHTML.strike();
-  document.getElementById('mSlot' + a).innerHTML = content; //is this the best way to do this lol idk maybe not
-  document.getElementById('mSlot' + a).value = false;
-}
-
-function botBuy1() {
-  var content = document.getElementById('bMSlot0').innerHTML.strike();
-  document.getElementById('bMSlot0').innerHTML = content;
-  document.getElementById('bMSlot0').value = false;
+function botBuy(id, index) {
+  var content = document.getElementById(id + index).innerHTML.strike();
+  document.getElementById(id + index).innerHTML = content;
+  document.getElementById(id + index).value = false;
 }
 
 var myItems = [];
-function buy(a, b) {
-  if (a === false) {
-    var content0 = document.getElementById('mSlot' + b).value;
-    if (content0) {
-      var moneyBool0 = moneyFn(parseInt(content0.split('~')[2]));
-      money = moneyBool0[0];
-      if (moneyBool0[1]) {
-        myItems.push(content0);
-        botBuy(b);
+function buy(id, index) {
+    var content = document.getElementById(id + index).value;
+    if (content) {
+      var moneyBool = moneyFn(parseInt(content.split('~')[2]));
+      money = moneyBool[0];
+      if (moneyBool[1]) {
+        myItems.push(content);
+        botBuy(id, index);
       }
     }
-  }
-
-  if (a === true) {
-    var content1 = document.getElementById('bMSlot0').value;
-    if (content1) {
-      var moneyBool1 = moneyFn(parseInt(content1.split('~')[2]));
-      money = moneyBool1[0];
-      if (moneyBool1[1]) {
-        myItems.push(content1);
-        botBuy1();
-      }
-    }
-  }
 
   document.getElementById('inventory').innerHTML = invenCopy();
   document.getElementById('moneyP').innerHTML = `$${money}`;
@@ -449,10 +421,6 @@ function myMarket() {
     })
   }
 }
-//hostAppend(itemOrderNum0, type, 'Electronics Store', value);
-
-// var div = document.getElementById("myLiveItems");
-// var nodeList = div.getElementsByTagName("div").length;
 
 
 function hostAppend(index, content, type, price) { //maybe put this in the fn.^^ so dont have to have so many parameters
