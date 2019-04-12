@@ -235,43 +235,43 @@ function moneyFn(price) {
 
 function myMarket() {
   var itemArr = invenCopy();
+  var maxQuant = [];
   var parent = document.getElementById('container');
 
   while (parent.hasChildNodes()) {
     parent.removeChild(parent.firstChild);
   }
 
-  var maxQuant = [];
   if (maxQuant.length === 0) {
-    for (var c = 0; c < itemArr.length; c++) {
-      maxQuant.push(parseInt(itemArr[c].split(' ')[0]));
+    for (var a = 0; a < itemArr.length; a++) {
+      maxQuant.push(parseInt(itemArr[a].split(' ')[0]));
     }
   }
 
-  for (var a = 0; a < itemArr.length; a++) {
+  for (var b = 0; b < itemArr.length; b++) {
     var newDiv = document.createElement('div');
     newDiv.className = 'gridItem';
 
     var amountType = document.createElement('p');
-    amountType.innerText = `${itemArr[a].split(' ')[0]}/${maxQuant[a]} ${itemArr[a].replace(/[0-9]|\/|/g, '').trim()}`;
-    amountType.setAttribute('id', 'typeID' + a);
+    amountType.innerText = `${itemArr[b].split(' ')[0]}/${maxQuant[b]} ${itemArr[b].replace(/[0-9]|\/|/g, '').trim()}`;
+    amountType.setAttribute('id', 'typeID' + b);
 
     var up = document.createElement('p');
     up.innerText = '▲';
-    up.setAttribute('id', 'upID~' + a);
+    up.setAttribute('id', 'upID~' + b);
 
     var down = document.createElement('p');
     down.innerText = '▼';
-    down.setAttribute('id', 'downID~' + a);
+    down.setAttribute('id', 'downID~' + b);
 
     var input = document.createElement('input');
     input.type = 'number';
-    input.setAttribute('id', 'input~' + a);
-    input.value = itemType(itemArr[a].replace(/[0-9]|\/|/g, '').trim())*itemArr[a].split(' ')[0];
+    input.setAttribute('id', 'input~' + b);
+    input.value = itemType(itemArr[b].replace(/[0-9]|\/|/g, '').trim())*itemArr[b].split(' ')[0];
 
     var confirm = document.createElement('button');
     confirm.innerText = 'Advertise';
-    confirm.setAttribute('id', 'confirm~' + a);
+    confirm.setAttribute('id', 'confirm~' + b);
 
     newDiv.appendChild(up);
     newDiv.appendChild(amountType);
@@ -282,8 +282,8 @@ function myMarket() {
   }
 
 
-  for (var b = 0; b < itemArr.length; b++) { //need to reference different id's to add listeners
-    document.getElementById('upID~' + b).addEventListener('click', function() { //up stuff
+  for (var c = 0; c < itemArr.length; c++) { //need to reference different id's to add listeners
+    document.getElementById('upID~' + c).addEventListener('click', function() { //up stuff
       var itemOrderNum0 = parseInt(this.id.split('~')[1]);
       var amountOrig = parseInt(itemArr[itemOrderNum0].split(' ')[0]);
 
@@ -298,7 +298,7 @@ function myMarket() {
       }
     })
     var amountChange1;
-    document.getElementById('downID~' + b).addEventListener('click', function() { //down stuff
+    document.getElementById('downID~' + c).addEventListener('click', function() { //down stuff
       var itemOrderNum1 = parseInt(this.id.split('~')[1]);
       var amountOrig1 = parseInt(itemArr[itemOrderNum1].split(' ')[0]);
 
@@ -313,7 +313,7 @@ function myMarket() {
       }
     })
     //------------------------------------------------------------------------------
-    document.getElementById('confirm~' + b).addEventListener('click', function() { //advertise stuff
+    document.getElementById('confirm~' + c).addEventListener('click', function() { //advertise stuff
       var itemOrderNum0 = parseInt(this.id.split('~')[1]);
       var value = document.getElementById('input~' + itemOrderNum0).value;
       var div = document.getElementById("myLiveItems");
@@ -378,7 +378,7 @@ function myMarket() {
         money = moneyFn(value)[0];
         document.getElementById('moneyP').innerHTML = `$${money}`; //wait this is opposite lol
       } else {
-        alert('you dont have enough slots');
+        alert("You don't have enough slots");
       }
     })
   }
