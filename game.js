@@ -1,4 +1,8 @@
-var money = 5000;
+//Money will be saved when refreshing the page
+if (!localStorage.moneySave) {
+  localStorage.moneySave = 5000;
+}
+
 mSlotGen();
 marketTime();
 mSlotGenBig();
@@ -44,7 +48,7 @@ function marketTime() {
       return `${m} min ${s} secs`;
     }
   }
-  document.getElementById('moneyP').innerHTML = `$${money}`;
+  document.getElementById('moneyP').innerHTML = `$${localStorage.moneySave}`;
 }
 
 var lastPick;
@@ -106,7 +110,6 @@ function mSlotGenBig() {
 function mSlotGen() { //function for generating market slot items
   var c = 0;
   var mSlotItems = ['Wood', 'Brick', 'Steel', 'Silver', 'Gold', 'Platinum', 'Cell Phone', 'Computer']; //market slot item
-  //var mItemNum = (document.getElementById('mSlots').childNodes.length - 1) / 2; //get how many items
   numItems = [];
 
   //this the the logic for getting rarity on the items. No they werent picked at random, this is MANY minutes of balancing
@@ -185,14 +188,17 @@ function buy(id, index) {
     var content = document.getElementById(id + index).value;
     if (content) {
       var moneyBool = moneyFn(parseInt(content.split('~')[2]));
-      money = moneyBool[0];
+      //localStorage.moneySave = Number(localStorage.moneySave)+1;
+      var moneyRewrite = parseInt(moneyBool[0]);
+      localStorage.setItem('moneySave', moneyRewrite);
+      //money = moneyBool[0];
       if (moneyBool[1]) {
         myItems.push(content);
         botBuy(id, index);
       }
     }
   document.getElementById('inventory').innerHTML = invenCopy();
-  document.getElementById('moneyP').innerHTML = `$${money}`;
+  document.getElementById('moneyP').innerHTML = `$${localStorage.moneySave}`;
   myMarket();
 }
 
@@ -226,11 +232,12 @@ function invenCopy() {
 }
 
 function moneyFn(price) {
+  var money = parseInt(localStorage.moneySave);
   if (money - price >= 0) {
-    money -= price;
-    return [money, true];
+    localStorage.moneySave = Number(localStorage.moneySave) - price;
+    return [localStorage.moneySave, true];
   }
-  return [money, false];
+  return [localStorage.moneySave, false];
 }
 
 function myMarket() {
@@ -448,8 +455,8 @@ function botBuyMM(index, deleteSlot) {
   var content = document.getElementById('MMhost' + index).innerHTML.strike();
   document.getElementById('MMhost' + index).innerHTML = content;
   setTimeout(function(){
-    money += parseInt(document.getElementById('itemPrice' + index).innerHTML.replace('$',''));
-    document.getElementById('moneyP').innerHTML = `$${money}`;
+    localStorage.moneySave = parseInt(document.getElementById('itemPrice' + index).innerHTML.replace('$','')) + Number(localStorage.moneySave);
+    document.getElementById('moneyP').innerHTML = `$${localStorage.moneySave}`;
     deleteSlot.remove();
   }, 2000);
 }
