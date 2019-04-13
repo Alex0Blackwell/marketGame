@@ -1,4 +1,4 @@
-var money = 500000;
+var money = 5000;
 mSlotGen();
 marketTime();
 mSlotGenBig();
@@ -283,7 +283,7 @@ function myMarket() {
 
 
   for (var c = 0; c < itemArr.length; c++) { //need to reference different id's to add listeners
-    document.getElementById('upID~' + c).addEventListener('click', function() { //up
+      document.getElementById('upID~' + c).addEventListener('click', function() { //up
       var itemOrderNum0 = parseInt(this.id.split('~')[1]);
       var amountOrig = parseInt(itemArr[itemOrderNum0].split(' ')[0]);
 
@@ -294,9 +294,9 @@ function myMarket() {
         itemArr[itemOrderNum0] = `${amountOrig}/${maxQuant[itemOrderNum0]} ${itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim()}`;
         document.getElementById('input~' + itemOrderNum0).value = itemType(itemArr[itemOrderNum0].replace(/[0-9]|\/|/g, '').trim())*amountOrig;
       }
-	  document.getElementById('typeID' + itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
+	    document.getElementById('typeID' + itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
     })
-	  
+
     document.getElementById('downID~' + c).addEventListener('click', function() { //down
       var itemOrderNum1 = parseInt(this.id.split('~')[1]);
       var amountOrig1 = parseInt(itemArr[itemOrderNum1].split(' ')[0]);
@@ -308,7 +308,7 @@ function myMarket() {
         itemArr[itemOrderNum1] = `${amountOrig1}/${maxQuant[itemOrderNum1]} ${itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim()}`;
         document.getElementById('input~' + itemOrderNum1).value = itemType(itemArr[itemOrderNum1].replace(/[0-9]|\/|/g, '').trim())*(amountOrig1);
       }
-	  document.getElementById('typeID' + itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
+	    document.getElementById('typeID' + itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
     })
     //------------------------------------------------------------------------------
     document.getElementById('confirm~' + c).addEventListener('click', function() { //advertise
@@ -372,9 +372,7 @@ function myMarket() {
             break;
         }
         myMarket();
-        document.getElementById('inventory').innerHTML = invenCopy(); //are u screaming yet... ik ill get there, just making it work first
-        money = moneyFn(value)[0];
-        document.getElementById('moneyP').innerHTML = `$${money}`; //wait this is opposite lol
+        document.getElementById('inventory').innerHTML = invenCopy();
       } else {
         alert("You don't have enough slots");
       }
@@ -394,6 +392,7 @@ function hostAppend(index, content, type, price) { //maybe put this in the fn.^^
   newItem.setAttribute('id', 'MMhost' + nodeList);
   var itemPrice = document.createElement('p');
   itemPrice.innerText = `$${price}`;
+  itemPrice.setAttribute('id', 'itemPrice' + nodeList);
   var deleteBtn = document.createElement('button');
   deleteBtn.innerText = 'delete';
   deleteBtn.onclick = function() {newDiv.remove();}
@@ -403,7 +402,6 @@ function hostAppend(index, content, type, price) { //maybe put this in the fn.^^
   document.getElementById('myLiveItems').appendChild(newDiv);
   setTimeout(botBuyMM, Math.pow(price / (itemType(type)*amount),3) * 20000, nodeList, newDiv); //for buying my hosted items
 }
-
 
 function itemType(type, amount) {
   switch (type) {
@@ -449,5 +447,9 @@ function itemType(type, amount) {
 function botBuyMM(index, deleteSlot) {
   var content = document.getElementById('MMhost' + index).innerHTML.strike();
   document.getElementById('MMhost' + index).innerHTML = content;
-  setTimeout(function(){deleteSlot.remove();}, 2000);
+  setTimeout(function(){
+    money += parseInt(document.getElementById('itemPrice' + index).innerHTML.replace('$',''));
+    document.getElementById('moneyP').innerHTML = `$${money}`;
+    deleteSlot.remove();
+  }, 2000);
 }
