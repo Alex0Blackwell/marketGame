@@ -1,4 +1,7 @@
-//Money will be saved when refreshing the page
+var lastPick;
+
+var myItems = [];
+
 if (!localStorage.moneySave) {
   localStorage.moneySave = 5000;
 }
@@ -6,6 +9,20 @@ if (!localStorage.moneySave) {
 mSlotGen();
 marketTime();
 mSlotGenBig();
+myMarket();
+
+if (!localStorage.woodSave) {localStorage.woodSave = 0;}
+if (!localStorage.brickSave) {localStorage.brickSave = 0;}
+if (!localStorage.steelSave) {localStorage.steelSave = 0;}
+if (!localStorage.silverSave) {localStorage.silverSave = 0;}
+if (!localStorage.goldSave) {localStorage.goldSave = 0;}
+if (!localStorage.platinumSave) {localStorage.platinumSave = 0;}
+if (!localStorage.cellPhoneSave) {localStorage.cellPhoneSave = 0;}
+if (!localStorage.computerSave) {localStorage.computerSave = 0;}
+if (!localStorage.electronicsStoreSave) {localStorage.electronicsStoreSave = 0;}
+if (!localStorage.computerStoreSave) {localStorage.computerStoreSave = 0;}
+if (!localStorage.cafeSave) {localStorage.cafeSave = 0;}
+if (!localStorage.restaurantSave) {localStorage.restaurantSave = 0;}
 
 function marketTime() {
   var t0 = 15000;
@@ -51,7 +68,6 @@ function marketTime() {
   document.getElementById('moneyP').innerHTML = `$${localStorage.moneySave}`;
 }
 
-var lastPick;
 function mSlotGenBig() {
   var mBigItems = ['Electronics Store', 'Computer Store', 'Café', 'Restaurant'];
   var mBRand = Math.random() * 10;
@@ -183,7 +199,6 @@ function botBuy(id, index) {
   document.getElementById(id + index).value = false;
 }
 
-var myItems = [];
 function buy(id, index) {
     var content = document.getElementById(id + index).value;
     if (content) {
@@ -202,19 +217,6 @@ function buy(id, index) {
   myMarket();
 }
 
-var wood = 0;
-var brick = 0;
-var steel = 0;
-var silver = 0;
-var gold = 0;
-var platinum = 0;
-var cellPhone = 0;
-var computer = 0;
-var electronicsStore = 0;
-var computerStore = 0;
-var cafe = 0;
-var restaurant = 0;
-
 function invenCopy() {
   var finalInven = [];
 
@@ -222,7 +224,7 @@ function invenCopy() {
 	itemType(myItems[i].split('~')[1], parseInt(myItems[i].split('~')[0]));
     myItems = [];
   }
-  var amountArr = [`${wood} Wood`, `${brick} Brick`, `${steel} Steel`, `${silver} Silver`, `${gold} Gold`, `${platinum} Platinum`, `${cellPhone} Cell Phone`, `${computer} Computer`, `${electronicsStore} Electronics Store`, `${computerStore} Computer Store`, `${cafe} Cafe`, `${restaurant} Restaurant`];
+  var amountArr = [`${localStorage.woodSave} Wood`, `${localStorage.brickSave} Brick`, `${localStorage.steelSave} Steel`, `${localStorage.silverSave} Silver`, `${localStorage.goldSave} Gold`, `${localStorage.platinumSave} Platinum`, `${localStorage.cellPhoneSave} Cell Phone`, `${localStorage.computerSave} Computer`, `${localStorage.electronicsStoreSave} Electronics Store`, `${localStorage.computerStoreSave} Computer Store`, `${localStorage.cafeSave} Cafe`, `${localStorage.restaurantSave} Restaurant`];
   for (var a = 0; a < amountArr.length; a++) {
     if (parseInt(amountArr[a].slice(0, 1)) > 0) {
       finalInven.push(amountArr[a]);
@@ -331,51 +333,51 @@ function myMarket() {
         switch (type.replace(/[0-9]|\/|/g, '').trim()) {
           case 'Wood':
             hostAppend(itemOrderNum0, type, 'Wood', value);
-            wood -= parseInt(type.split('/')[0]);
+            localStorage.woodSave = Number(localStorage.woodSave) - parseInt(type.split('/')[0]);
             break;
           case 'Brick':
             hostAppend(itemOrderNum0, type, 'Brick', value);
-            brick -= parseInt(type.split('/')[0]);
+            localStorage.brickSave = Number(localStorage.brickSave) - parseInt(type.split('/')[0]);
             break;
           case 'Steel':
             hostAppend(itemOrderNum0, type, 'Steel', value);
-            steel -= parseInt(type.split('/')[0]);
+            localStorage.steelSave =  Number(localStorage.steelSave) - parseInt(type.split('/')[0]);
             break;
           case 'Silver':
             hostAppend(itemOrderNum0, type, 'Silver', value);
-            silver -= parseInt(type.split('/')[0]);
+            localStorage.silverSave = Number(localStorage.silverSave) - parseInt(type.split('/')[0]);
             break;
           case 'Gold':
             hostAppend(itemOrderNum0, type, 'Gold', value);
-            gold -= parseInt(type.split('/')[0]);
+            localStorage.goldSave = Number(localStorage.goldSave) - parseInt(type.split('/')[0]);
             break;
           case 'Platinum':
             hostAppend(itemOrderNum0, type, 'Platinum', value);
-            platinum -= parseInt(type.split('/')[0]);
+            localStorage.platinumSave = Number(localStorage.platinumSave) - parseInt(type.split('/')[0]);
             break;
           case 'Cell Phone':
             hostAppend(itemOrderNum0, type, 'Cell Phone', value);
-            cellPhone -= parseInt(type.split('/')[0]);
+            localStorage.cellPhoneSave = Number(localStorage.cellPhoneSave) - parseInt(type.split('/')[0]);
             break;
           case 'Computer':
             hostAppend(itemOrderNum0, type, 'Computer', value);
-            computer -= parseInt(type.split('/')[0]);
+            localStorage.computerSave = Number(localStorage.computerSave) - parseInt(type.split('/')[0]);
             break;
           case 'Electronics Store':
             hostAppend(itemOrderNum0, type, 'Electronics Store', value);
-            electronicsStore -= parseInt(type.split('/')[0]);
+            localStorage.electronicsStoreSave = Number(localStorage.electronicsStoreSave) - parseInt(type.split('/')[0]);
             break;
           case 'Computer Store':
             hostAppend(itemOrderNum0, type, 'Computer Store', value);
-            computerStore -= parseInt(type.split('/')[0]);
+            localStorage.computerStoreSave = Number(localStorage.computerStoreSave) - parseInt(type.split('/')[0]);
             break;
           case 'Cafe':
             hostAppend(itemOrderNum0, type, 'Café', value);
-            cafe -= parseInt(type.split('/')[0]);
+            localStorage.cafeSave = Number(localStorage.cafeSave) - parseInt(type.split('/')[0]);
             break;
           case 'Restaurant':
             hostAppend(itemOrderNum0, type, 'Restaurant', value);
-            restaurant -= parseInt(type.split('/')[0]);
+            localStorage.restaurantSave = Number(localStorage.restaurantSave) - parseInt(type.split('/')[0]);
             break;
         }
         myMarket();
@@ -413,40 +415,40 @@ function hostAppend(index, content, type, price) { //maybe put this in the fn.^^
 function itemType(type, amount) {
   switch (type) {
     case 'Wood':
-	  return ((amount) ? (wood += amount) : 10);
+	  return ((amount) ? (localStorage.woodSave = Number(localStorage.woodSave) + amount) : 10);
       break;
     case 'Brick':
-	  return ((amount) ? (brick += amount) : 15);
+	  return ((amount) ? (localStorage.brickSave = Number(localStorage.brickSave) + amount) : 15);
       break;
     case 'Steel':
-	  return ((amount) ? (steel += amount) : 25);
+	  return ((amount) ? (localStorage.steelSave = Number(localStorage.steelSave) + amount) : 25);
       break;
     case 'Silver':
-	  return ((amount) ? (silver += amount) : 50);
+	  return ((amount) ? (localStorage.silverSave = Number(localStorage.silverSave) + amount) : 50);
       break;
     case 'Gold':
-	  return ((amount) ? (gold += amount) : 100);
+	  return ((amount) ? (localStorage.goldSave = Number(localStorage.goldSave) + amount) : 100);
       break;
     case 'Platinum':
-	  return ((amount) ? (platinum += amount) : 150);
+	  return ((amount) ? (localStorage.platinumSave = Number(localStorage.platinumSave) + amount) : 150);
       break;
     case 'Cell Phone':
-	  return ((amount) ? (cellPhone += amount) : 1000);
+	  return ((amount) ? (localStorage.cellPhoneSave = Number(localStorage.cellPhoneSave) + amount) : 1000);
       break;
     case 'Computer':
-	  return ((amount) ? (computer += amount) : 1500);
+	  return ((amount) ? (localStorage.computerSave = Number(localStorage.computerSave) + amount) : 1500);
       break;
     case 'Electronics Store':
-	  return ((amount) ? (electronicsStore += amount) : 10000);
+	  return ((amount) ? (localStorage.electronicsStoreSave = Number(localStorage.electronicsStoreSave) + amount) : 10000);
       break;
     case 'Computer Store':
-	  return ((amount) ? (computerStore += amount) : 20000);
+	  return ((amount) ? (localStorage.computerStoreSave = Number(localStorage.computerStoreSave) + amount) : 20000);
       break;
     case 'Cafe':
-	  return ((amount) ? (cafe += amount) : 25000);
+	  return ((amount) ? (localStorage.cafeSave = Number(localStorage.cafeSave) + amount) : 25000);
       break;
     case 'Restaurant':
-	  return ((amount) ? (restaurant += amount) : 75000);
+	  return ((amount) ? (localStorage.restaurantSave = Number(localStorage.restaurantSave) + amount) : 75000);
       break;
   }
 }
