@@ -1,15 +1,8 @@
-var lastPick;
-
 var myItems = [];
 
-if (!localStorage.moneySave) {
-  localStorage.moneySave = 5000;
-}
+var lastPick;
 
-mSlotGen();
-marketTime();
-mSlotGenBig();
-myMarket();
+if (!localStorage.moneySave) {localStorage.moneySave = 5000;}
 
 if (!localStorage.woodSave) {localStorage.woodSave = 0;}
 if (!localStorage.brickSave) {localStorage.brickSave = 0;}
@@ -23,6 +16,11 @@ if (!localStorage.electronicsStoreSave) {localStorage.electronicsStoreSave = 0;}
 if (!localStorage.computerStoreSave) {localStorage.computerStoreSave = 0;}
 if (!localStorage.cafeSave) {localStorage.cafeSave = 0;}
 if (!localStorage.restaurantSave) {localStorage.restaurantSave = 0;}
+
+mSlotGen();
+marketTime();
+mSlotGenBig();
+myMarket();
 
 function marketTime() {
   var t0 = 15000;
@@ -65,7 +63,7 @@ function marketTime() {
       return `${m} min ${s} secs`;
     }
   }
-  document.getElementById('moneyP').innerHTML = `$${localStorage.moneySave}`;
+  document.getElementById('moneyP').innerHTML = `Money: $${localStorage.moneySave}`;
 }
 
 function mSlotGenBig() {
@@ -213,7 +211,7 @@ function buy(id, index) {
       }
     }
   document.getElementById('inventory').innerHTML = invenCopy();
-  document.getElementById('moneyP').innerHTML = `$${localStorage.moneySave}`;
+  document.getElementById('moneyP').innerHTML = `Money: $${localStorage.moneySave}`;
   myMarket();
 }
 
@@ -389,7 +387,7 @@ function myMarket() {
   }
 }
 
-function hostAppend(index, content, type, price) { //maybe put this in the fn.^^ so dont have to have so many parameters
+function hostAppend(index, content, type, price) {
   var div = document.getElementById("myLiveItems");
   var nodeList = div.getElementsByTagName("div").length;
 
@@ -458,7 +456,7 @@ function botBuyMM(index, deleteSlot) {
   document.getElementById('MMhost' + index).innerHTML = content;
   setTimeout(function(){
     localStorage.moneySave = parseInt(document.getElementById('itemPrice' + index).innerHTML.replace('$','')) + Number(localStorage.moneySave);
-    document.getElementById('moneyP').innerHTML = `$${localStorage.moneySave}`;
+    document.getElementById('moneyP').innerHTML = `Money: $${localStorage.moneySave}`;
     deleteSlot.remove();
   }, 2000);
 }
