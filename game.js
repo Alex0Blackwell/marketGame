@@ -2,7 +2,7 @@ var myItems = [];
 
 var lastPick;
 
-if (!localStorage.moneySave) {localStorage.moneySave = 5000;}
+if (!localStorage.moneySave) {localStorage.moneySave = 1500;}
 
 if (!localStorage.woodSave) {localStorage.woodSave = 0;}
 if (!localStorage.brickSave) {localStorage.brickSave = 0;}
