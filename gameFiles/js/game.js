@@ -1,7 +1,9 @@
-var myItems = [];
+var myItems = []; //the inventory items that the user has bought
 
-var lastPick;
+var lastPick; // used for making sure the same large item doesn't spawn consecutively
 
+
+//The below are variables stored in local storage so the users progress can be saved after closing or refreshing
 if (!localStorage.moneySave) {localStorage.moneySave = 1500;}
 
 if (!localStorage.woodSave) {localStorage.woodSave = 0;}
@@ -17,19 +19,22 @@ if (!localStorage.computerStoreSave) {localStorage.computerStoreSave = 0;}
 if (!localStorage.cafeSave) {localStorage.cafeSave = 0;}
 if (!localStorage.restaurantSave) {localStorage.restaurantSave = 0;}
 
-mSlotGen();
-marketTime();
-mSlotGenBig();
-myMarket();
+document.getElementById('moneyP').innerHTML = `Money: $${localStorage.moneySave}`; //display money
 
+marketTime(); //start timers
+mSlotGen(); //generate light market items
+mSlotGenBig(); //generate large market items
+myMarket(); //if the user has items in their market they will display
+
+//for counting down and calling the market generation
 function marketTime() {
   var t0 = 15000;
   var t1 = 75000;
   var rawTime0 = t0 / 1000;
   var rawTime1 = t1 / 1000;
-  var mTime = setInterval(mSlotGen, t0);
 
-  var mBigTime = setInterval(mSlotGenBig, t1);
+  setInterval(mSlotGen, t0);
+  setInterval(mSlotGenBig, t1);
 
   document.getElementById('mRefreshT').innerHTML = `${mCountDwn0()}`;
   setInterval(function() {
@@ -41,14 +46,14 @@ function marketTime() {
     document.getElementById('mBRefreshT').innerHTML = `${mCountDwn1()}`;
   }, 1000);
 
-  function mCountDwn0() {
+  function mCountDwn0() { //light market countdown function
     if (rawTime0 === 0) {
       rawTime0 = t0 / 1000;
     }
     return `${rawTime0--} secs`;
   }
 
-  function mCountDwn1() {
+  function mCountDwn1() { //large market countdown function
     var m = Math.floor(rawTime1 / 60);
     var s = rawTime1 % 60;
 
@@ -63,21 +68,20 @@ function marketTime() {
       return `${m} min ${s} secs`;
     }
   }
-  document.getElementById('moneyP').innerHTML = `Money: $${localStorage.moneySave}`;
 }
 
+//for generating large market Items
 function mSlotGenBig() {
   var mBigItems = ['Electronics Store', 'Computer Store', 'Café', 'Restaurant'];
   var mBRand = Math.random() * 10;
 
   genLogic();
 
+  //genLogic generates more typically less expensive items and makes sure the same item is generated consecutively
   function genLogic() {
     if (mBRand < 4) { //electronics store
       if (lastPick === mBigItems[0]) {
-	    mBRand = Math.random() * 10;
-	    lastPick = mBigItems[0];
-        genLogic();
+	    noRepeat(0);
       } else {
         var bigPrice0 = mBigPriceGen(0);
         document.getElementById('bMSlot0').innerHTML = `${mBigItems[0]} for $${bigPrice0}`;
@@ -86,9 +90,7 @@ function mSlotGenBig() {
       }
     } else if (mBRand < 7) { //computer store
       if (lastPick === mBigItems[1]) {
-        mBRand = Math.random() * 10;
-	    lastPick = mBigItems[1];
-        genLogic();
+        noRepeat(1);
       } else {
         var bigPrice1 = mBigPriceGen(1);
         document.getElementById('bMSlot0').innerHTML = `${mBigItems[1]} for $${bigPrice1}`;
@@ -97,9 +99,7 @@ function mSlotGenBig() {
       }
     } else if (mBRand < 9) { //cafe
       if (lastPick === mBigItems[2]) {
-        mBRand = Math.random() * 10;
-	    lastPick = mBigItems[2];
-        genLogic();
+        noRepeat(2);
       } else {
         var bigPrice2 = mBigPriceGen(2);
         document.getElementById('bMSlot0').innerHTML = `${mBigItems[2]} for $${bigPrice2}`;
@@ -108,9 +108,7 @@ function mSlotGenBig() {
       }
     } else if (mBRand >= 9) { //restaurant
       if (lastPick === mBigItems[3]) {
-        mBRand = Math.random() * 10;
-	    lastPick = mBigItems[3];
-        genLogic();
+        noRepeat(3);
      } else {
         var bigPrice3 = mBigPriceGen(3);
         document.getElementById('bMSlot0').innerHTML = `${mBigItems[3]} for $${bigPrice3}`;
@@ -119,9 +117,15 @@ function mSlotGenBig() {
       }
     }
   }
+  function noRepeat(index) {
+	mBRand = Math.random() * 10;
+	lastPick = mBigItems[index];
+    genLogic();
+  }
 }
 
-function mSlotGen() { //function for generating market slot items
+//for generating market slot items
+function mSlotGen() {
   var c = 0;
   var mSlotItems = ['Wood', 'Brick', 'Steel', 'Silver', 'Gold', 'Platinum', 'Cell Phone', 'Computer']; //market slot item
   numItems = [];
@@ -156,9 +160,9 @@ function mSlotGen() { //function for generating market slot items
   }
 }
 
-function mPriceGen(index, amount, i) { //a is a number 0-7 for the array index of the product; b is the amount of item; i is for the id call
+//gets the light market prices
+function mPriceGen(index, amount, i) {
   var mItemPrice = [10, 15, 25, 50, 100, 150, 1000, 1500];
-  //(medium +- (medium*.9/rand(+.1))/10 --> round)*number of items
   if (Math.random()>.5) {
     return ((mItemPrice[index] + (mItemPrice[index] * 0.9 / (Math.random() + 0.1)) / 10).toFixed()) * amount;
   } else {
@@ -169,7 +173,8 @@ function mPriceGen(index, amount, i) { //a is a number 0-7 for the array index o
   }
 }
 
-function mBigPriceGen(index) { //a is a number 0-3
+//gets the large market prices
+function mBigPriceGen(index) {
   var mItemPrice = [10000, 20000, 25000, 75000];
 
   if (Math.random()>.5) {
@@ -181,6 +186,7 @@ function mBigPriceGen(index) { //a is a number 0-3
   }
 }
 
+//sets the maximum number of items that will spawn so cheaper items spawn in greater quantities
 function numOfItem(a) {
   if (a < 4) {
     return (Math.random() * 9 + 1).toFixed();
@@ -191,20 +197,20 @@ function numOfItem(a) {
   }
 }
 
+//for when a bot buys an item it crosses it out and makes it impossible to buy
 function botBuy(id, index) {
   var content = document.getElementById(id + index).innerHTML.strike();
   document.getElementById(id + index).innerHTML = content;
   document.getElementById(id + index).value = false;
 }
 
+//when buying items, makes sure the item can't be bought again, crosses it out, subtract the item price from the users money, and adds the items to the inventory
 function buy(id, index) {
     var content = document.getElementById(id + index).value;
     if (content) {
       var moneyBool = moneyFn(parseInt(content.split('~')[2]));
-      //localStorage.moneySave = Number(localStorage.moneySave)+1;
       var moneyRewrite = parseInt(moneyBool[0]);
       localStorage.setItem('moneySave', moneyRewrite);
-      //money = moneyBool[0];
       if (moneyBool[1]) {
         myItems.push(content);
         botBuy(id, index);
@@ -215,6 +221,7 @@ function buy(id, index) {
   myMarket();
 }
 
+//adds all the repeating items together and organizes them from cheapest to most expensive, displaying only the items that have a quantity greater than 0
 function invenCopy() {
   var finalInven = [];
 
@@ -231,6 +238,7 @@ function invenCopy() {
   return finalInven;
 }
 
+//subtracts price if user money doesn't go negative, also returns a flag that will be used later to decide to push the item to inventory or not
 function moneyFn(price) {
   var money = parseInt(localStorage.moneySave);
   if (money - price >= 0) {
@@ -240,22 +248,23 @@ function moneyFn(price) {
   return [localStorage.moneySave, false];
 }
 
+//for everything about the users market: adding items to the users live market, selecting the amount of items to add, selecting the price of the items, the option to delete live items
 function myMarket() {
   var itemArr = invenCopy();
-  var maxQuant = [];
+  var maxQuant = []; //used so you can't add more items than you have to your market
   var parent = document.getElementById('container');
 
-  while (parent.hasChildNodes()) {
+  while (parent.hasChildNodes()) { //deletes anything currently in the users "add to market"
     parent.removeChild(parent.firstChild);
   }
 
-  if (maxQuant.length === 0) {
+  if (maxQuant.length === 0) { //sets maxQuant if not already
     for (var a = 0; a < itemArr.length; a++) {
       maxQuant.push(parseInt(itemArr[a].split(' ')[0]));
     }
   }
 
-  for (var b = 0; b < itemArr.length; b++) {
+  for (var b = 0; b < itemArr.length; b++) { //loop that dynamically generates html via javascript and gives these elements unique id's
     var newDiv = document.createElement('div');
     newDiv.className = 'gridItem';
 
@@ -289,8 +298,8 @@ function myMarket() {
   }
 
 
-  for (var c = 0; c < itemArr.length; c++) { //need to reference different id's to add listeners
-      document.getElementById('upID~' + c).addEventListener('click', function() { //up
+  for (var c = 0; c < itemArr.length; c++) { //a simular for loop is needed to reference different id's to add listeners
+      document.getElementById('upID~' + c).addEventListener('click', function() { //up button to increment quantity by + 1
       var itemOrderNum0 = parseInt(this.id.split('~')[1]);
       var amountOrig = parseInt(itemArr[itemOrderNum0].split(' ')[0]);
 
@@ -304,7 +313,7 @@ function myMarket() {
 	    document.getElementById('typeID' + itemOrderNum0).innerHTML = itemArr[itemOrderNum0];
     })
 
-    document.getElementById('downID~' + c).addEventListener('click', function() { //down
+    document.getElementById('downID~' + c).addEventListener('click', function() { //down button to increment quantity by - 1
       var itemOrderNum1 = parseInt(this.id.split('~')[1]);
       var amountOrig1 = parseInt(itemArr[itemOrderNum1].split(' ')[0]);
 
@@ -318,7 +327,7 @@ function myMarket() {
 	    document.getElementById('typeID' + itemOrderNum1).innerHTML = itemArr[itemOrderNum1];
     })
     //------------------------------------------------------------------------------
-    document.getElementById('confirm~' + c).addEventListener('click', function() { //advertise
+    document.getElementById('confirm~' + c).addEventListener('click', function() { //advertise button to put on the users live market
       var itemOrderNum0 = parseInt(this.id.split('~')[1]);
       var value = document.getElementById('input~' + itemOrderNum0).value;
       var div = document.getElementById("myLiveItems");
@@ -381,12 +390,13 @@ function myMarket() {
         myMarket();
         document.getElementById('inventory').innerHTML = invenCopy();
       } else {
-        alert("You don't have enough slots");
+        alert("You don't have enough slots"); //the user must now wait for more slots or delete items without any money gained
       }
     })
   }
 }
 
+//for adding items to the users live market, this includes the number of which type of item, the price, and a delete button. The funtion also starts a timer for which the item will be bought out
 function hostAppend(index, content, type, price) {
   var div = document.getElementById("myLiveItems");
   var nodeList = div.getElementsByTagName("div").length;
@@ -407,9 +417,10 @@ function hostAppend(index, content, type, price) {
   newDiv.appendChild(itemPrice);
   newDiv.appendChild(deleteBtn);
   document.getElementById('myLiveItems').appendChild(newDiv);
-  setTimeout(botBuyMM, Math.pow(price / (itemType(type)*amount),3) * 20000, nodeList, newDiv); //for buying my hosted items
+  setTimeout(botBuyMM, Math.pow(price / (itemType(type)*amount),3) * 20000, nodeList, newDiv); //exponential function where price is x and time is y, if x is the average price, it will take 20 secs to buy out
 }
 
+//used to reference what type of item it is and then dealing with it based on a ternary condition to either increase the amount of an item, or return the average price
 function itemType(type, amount) {
   switch (type) {
     case 'Wood':
@@ -451,6 +462,7 @@ function itemType(type, amount) {
   }
 }
 
+//the bot buying function for the users market which buys the item, crosses it out, adds the money to the users total amount, and removes it after 2 seconds
 function botBuyMM(index, deleteSlot) {
   var content = document.getElementById('MMhost' + index).innerHTML.strike();
   document.getElementById('MMhost' + index).innerHTML = content;
