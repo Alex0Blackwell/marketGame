@@ -164,11 +164,10 @@ function mSlotGen() {
 function mPriceGen(index, amount, i) {
   var mItemPrice = [10, 15, 25, 50, 100, 150, 1000, 1500];
   if (Math.random()>.5) {
-    return ((mItemPrice[index] + (mItemPrice[index] * 0.9 / (Math.random() + 0.1)) / 10).toFixed()) * amount;
+    return ((mItemPrice[index] + (mItemPrice[index] / (Math.random() + 0.1)) * 0.09).toFixed()) * amount;
   } else {
-    var rawPrice = (mItemPrice[index] - (mItemPrice[index] * 0.9 / (Math.random() + 0.1)) / 10).toFixed();
-
-    setTimeout(botBuy, (rawPrice / mItemPrice[index] * 10000),'mSlot', i); //for buying the items
+    var rawPrice = (mItemPrice[index] - (mItemPrice[index] / (Math.random() + 0.1)) * 0.09).toFixed();
+    setTimeout(botBuy, (rawPrice / mItemPrice[index] * 10000),'mSlot', i); //parameter for referencing the item
     return (rawPrice * amount);
   }
 }
