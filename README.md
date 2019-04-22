@@ -5,3 +5,9 @@ The market game at its most fundamental is a large market which sells expensive 
 
 This program is currently being hosted at **marketgame.club** as of 21/04/2019
 note this program does not work on internet explorer, safari, and microsoft edge
+
+## Photo of the program 
+![](pictures/screenshot.PNG)
+
+## Photo showing the scalability of the program
+![](pictures/screenshot2.PNG)
