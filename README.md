@@ -14,18 +14,15 @@ This is a browser game I made in highschool that simulates the market. The game 
 ## Examples
 ### Website Screenshots
 
-> Screenshot on a desktop browser
+> Example gameplay on a desktop browser
 
-![Screenshot](pictures/screenshot.PNG "Buy Low!")
-
-> Screenshot of the layout on mobile
-
-![Screenshot](pictures/phone.PNG "Sell high!")
+[![Video](.pictures/market-game.gif "Visit the website!")](https://alex0blackwell.github.io/pages/market/index.html)
 
 
 ## Technologies
 - **HTML / CSS**
 - **Vanilla-JS**
+- **Bootstrap**
 
 
 ## Usage
